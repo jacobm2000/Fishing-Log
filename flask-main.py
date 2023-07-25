@@ -10,8 +10,15 @@ class fishLog(db.Model):
    name= db.Column('name' ,db.String(50))
 def __init__(self, name, city, addr,pin):
    self.name = name
- 
+
+class accounts(db.Model):
+   id = db.Column('account_id', db.Integer, primary_key = True)
+   username= db.Column('username' ,db.String(50))
+   password=db.Column('password' ,db.String(50))
+def __init__(self, name, city, addr,pin):
+   self.name = name
 db.create_all()
+
 @app.route("/",)
 def login() :
         return render_template("login.html")
@@ -21,8 +28,16 @@ def newAcc() :
     if request.method=="POST":
         user=str(request.form["username"])
         passw=str(request.form["password"])
-        return redirect('/newacc')
-    else:
+        
+   
+        new_user=accounts(
+            username=user,
+            password=passw
+            )
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect('/home')
+    else:       
         return  render_template("newAcc.html")
         
 @app.route("/home",methods=["POST","GET"])
