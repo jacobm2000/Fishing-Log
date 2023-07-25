@@ -16,6 +16,15 @@ db.create_all()
 def login() :
         return render_template("login.html")
     
+@app.route("/newacc",methods=["POST","GET"])
+def newAcc() :
+    if request.method=="POST":
+        user=str(request.form["username"])
+        passw=str(request.form["password"])
+        return redirect('/newacc')
+    else:
+        return  render_template("newAcc.html")
+        
 @app.route("/home",methods=["POST","GET"])
 def home() :
     if request.method=="POST":

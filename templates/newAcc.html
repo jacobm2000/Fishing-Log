@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+ {% block content %}
+ <link rel = "stylesheet" type="text/css" href="/static/loginStyle.css">
+ 
+ <form class="text-center w-50" action="/newacc"  method="post" class="form">
+  <h1 class="mb-5">Please enter your credentials</h1>
+    <div class="form-group mt-5">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" name="username" aria-describedby="username" placeholder="Enter Username">
+    </div>
+    <div class="form-group">
+      <label for="Password">Password</label>
+      <input type="password" class="form-control" id="Password" name="password" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary">Create account</button>
+  </form>
+
+
+ {% endblock %}
+
