@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+ {% block content %}
+ <link rel = "stylesheet" type="text/css" href="/static/style.css">
+ <form class="text-center w-50" action="/home"  method="post" class="form">
+    <input type="text" class="form-control" id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Username">
+    <button type="submit" class="btn btn-primary">Submit</button>
+ </form>
+ <br><br>
+<div class="text-center">
+   {% for fish in fishList%}
+   <h3>{{fish.name}}</h3>
+ {% endfor %}
+ {% endblock %}
+
+</div>
+
