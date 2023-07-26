@@ -5,8 +5,8 @@ Login
 {% endblock %}
  {% block content %}
  <link rel = "stylesheet" type="text/css" href="/static/loginStyle.css">
- 
- <form action="/newAcc"  method="post" class="form">
+
+ <form action="/login"  method="post" class="form">
   <h1 class="mb-5">Welcome, Please Login</h1>
     <div class="form-group mt-5">
       <label for="username" >Username</label>
@@ -14,9 +14,12 @@ Login
     </div>
     <div class="form-group">
       <label for="Password">Password</label>
-      <input type="password" class="form-control" name="username" id="Password" placeholder="Password">
+      <input type="password" class="form-control" name="password" id="Password" placeholder="Password">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
+    {% for mesg in get_flashed_messages() %}
+    <h4 class='text-danger mt-5'>{{ mesg }}</h4>
+    {% endfor %}
   </form>
 
 
