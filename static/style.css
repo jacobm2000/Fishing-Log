@@ -1,19 +1,21 @@
 #logout{
     text-align: left;
     align-items: left;
-    
+ 
     float:left;
     
 }
 .card{
     margin: 0 auto;
     float: none;
-    margin-bottom: 3rem
+    margin-bottom: 3rem;
+   
 }
-    
+.input_txt{
+width: 10rem;
+margin: 0 auto;
+    float: none;
+    margin-bottom: 3rem;
   
-
-#fishName{
-    text-align: center;
-    margin-left: 25%;
 }
+

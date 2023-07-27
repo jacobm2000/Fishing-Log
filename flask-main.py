@@ -103,10 +103,12 @@ def home() :
                 a_id = accounts.query.filter(accounts.username==session['user'])
                 a_id=a_id[0].id
                 fishName= str(request.form["fish"])
+                d= str(request.form["date"])
+                w= str(request.form["weight"])
                 new_fish=fish_Log(
                     name=fishName,
-                    date="5-12-24",
-                    weight="24kg",
+                    date=d,
+                    weight=w,
                     account_id=a_id
                     
                     )
