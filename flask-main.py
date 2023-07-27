@@ -52,9 +52,12 @@ def newAcc() :
    
         session['user']=str(request.form["username"])
         passw=str(request.form["password"])
+        
+        #checks to make username or password are not empty
         if( str(request.form["username"])=="" or passw==""):
             flash("username or password feild is empty")
             return  render_template("newAcc.html")
+        
         checkUser=accounts.query.filter_by(username=session['user'])
         
         #if user is not in db then it will throw an exception and the user can be added
