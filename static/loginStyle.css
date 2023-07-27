@@ -16,3 +16,6 @@ form{
     font-size: 2rem;
     text-align: center;
 }
+.form-control{
+    margin-left: 25%;
+}

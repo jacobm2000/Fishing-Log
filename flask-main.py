@@ -29,18 +29,20 @@ db.create_all()
 def login():
          
     if(request.method=="POST"):
-        print("moo")
-        session['user']=str(request.form["username"])
-        passw=str(request.form["password"])
-        checkUser=accounts.query.filter_by(username=session['user'],password=passw)
-        
-            #if user is not in db then it will throw an exception and the user can be added
-        try:
-               checkUser[0]
-               return redirect(url_for(".home",username=session['user']))
-        except:
-            flash("password or username incorrect")
-            return redirect('/login')
+        if (request.form['submit_button']=='login'):
+            session['user']=str(request.form["username"])
+            passw=str(request.form["password"])
+            checkUser=accounts.query.filter_by(username=session['user'],password=passw)
+            
+                #if user is not in db then it will throw an exception and the user can be added
+            try:
+                   checkUser[0]
+                   return redirect(url_for(".home",username=session['user']))
+            except:
+                flash("password or username incorrect")
+                return redirect('/login')
+        if (request.form['submit_button']=='signup'):
+            return redirect('/newacc')
     else:
        return render_template("login.html")
     
@@ -50,6 +52,9 @@ def newAcc() :
    
         session['user']=str(request.form["username"])
         passw=str(request.form["password"])
+        if( str(request.form["username"])=="" or passw==""):
+            flash("username or password feild is empty")
+            return  render_template("newAcc.html")
         checkUser=accounts.query.filter_by(username=session['user'])
         
         #if user is not in db then it will throw an exception and the user can be added

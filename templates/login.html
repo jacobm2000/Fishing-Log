@@ -10,13 +10,14 @@ Login
   <h1 class="mb-5">Welcome, Please Login</h1>
     <div class="form-group mt-5">
       <label for="username" >Username</label>
-      <input type="text" class="form-control" id="username" name="username" aria-describedby="Username" placeholder="Enter Username">
+      <input type="text" class="form-control w-50" id="username" name="username" aria-describedby="Username" placeholder="Enter Username">
     </div>
     <div class="form-group">
       <label for="Password">Password</label>
-      <input type="password" class="form-control" name="password" id="Password" placeholder="Password">
+      <input type="password" class="form-control w-50" name="password" id="Password" placeholder="Password">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" name="submit_button" value="login" class="btn btn-success">Login</button>
+    <button type="submit" name="submit_button" value='signup' class="btn btn-primary">Signup</button>
     {% for mesg in get_flashed_messages() %}
     <h4 class='text-danger mt-5'>{{ mesg }}</h4>
     {% endfor %}

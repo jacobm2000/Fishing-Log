@@ -8,22 +8,22 @@ Login
  {% block content %}
  
  <link rel = "stylesheet" type="text/css" href="/static/loginStyle.css">
- {% for mesg in get_flashed_messages() %}
- <h1>{{ mesg }}</h1>
- {% endfor %}
- <form class="text-center w-50" action="/newacc"  method="post" class="form">
+
+ <form class="text-center" action="/newacc"  method="post" class="form">
   <h1 class="mb-5">Welcome, please fill in the information below </h1>
     <div class="form-group mt-5">
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" name="username" aria-describedby="username" placeholder="Enter Username">
+      <input type="text" class="form-control w-50" id="username" name="username" aria-describedby="username" placeholder="Enter Username">
     </div>
     <div class="form-group">
       <label for="Password">Password</label>
-      <input type="password" class="form-control" id="Password" name="password" placeholder="Password">
+      <input type="password" class="form-control w-50" id="Password" name="password" placeholder="Password">
     </div>
     <button type="submit" class="btn btn-primary">Create account</button>
   </form>
-
+  {% for mesg in get_flashed_messages() %}
+  <h1 class="text-danger">{{ mesg }}</h1>
+  {% endfor %}
 
  {% endblock %}
 </body>
