@@ -5,6 +5,13 @@
     float:left;
     
 }
+.card{
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 3rem
+}
+    
+  
 
 #fishName{
     text-align: center;

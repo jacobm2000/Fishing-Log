@@ -15,9 +15,15 @@ Home
  
  </form>
  <br><br>
-<div class="text-center">
+<div class="text-center logs">
    {% for fish in fishList%}
-   <h3>{{fish.name}}</h3>
+   <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{fish.name}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{fish.date}}</h6>
+    <p class="card-text">{{fish.weight}}</p>
+  </div>
+</div>
  {% endfor %}
  {% endblock %}
 

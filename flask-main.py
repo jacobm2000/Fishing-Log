@@ -5,24 +5,35 @@ from flask_sqlalchemy import SQLAlchemy
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///fish.sqlite3'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY']='632h3232ss'
+
 db = SQLAlchemy(app)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+
 Session(app)
 
-class fishLog(db.Model):
+class fish_Log(db.Model):
    id = db.Column('fish_id', db.Integer, primary_key = True)
-   name= db.Column('name' ,db.String(50))
-def __init__(self, name, city, addr,pin):
+   name= db.Column(db.String(50))
+   date= db.Column(db.String(50))
+   weight=db.Column(db.String(50))
+   account_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
+def __init__(self, name, account_id):
    self.name = name
+   self.account_id=account_id
 
 class accounts(db.Model):
    id = db.Column('account_id', db.Integer, primary_key = True)
    username= db.Column('username' ,db.String(50))
    password=db.Column('password' ,db.String(50))
-def __init__(self, name, city, addr,pin):
-   self.name = name
+   fishlogs= db.relationship('fish_Log', backref='log')
+   
+def __init__(self,username,password,fishlogs):
+   self.username = username
+   self.password= password
+   
 db.create_all()
 
 @app.route("/login",methods=["GET","POST"])
@@ -37,8 +48,9 @@ def login():
                 #if user is not in db then it will throw an exception and the user can be added
             try:
                    checkUser[0]
+                   session["id"]=checkUser[0].id
                    return redirect(url_for(".home",username=session['user']))
-            except:
+            except Exception as e:
                 flash("password or username incorrect")
                 return redirect('/login')
         if (request.form['submit_button']=='signup'):
@@ -76,7 +88,7 @@ def newAcc() :
             db.session.add(new_user)
             db.session.commit()
       
-            return redirect(url_for(".home",username=session['user']))
+            return redirect('/login')
            
         
     else:       
@@ -88,9 +100,15 @@ def home() :
     try:
         if request.method=="POST":
             if (request.form['submit_button']=='submit'):
+                a_id = accounts.query.filter(accounts.username==session['user'])
+                a_id=a_id[0].id
                 fishName= str(request.form["fish"])
-                new_fish=fishLog(
-                    name=fishName
+                new_fish=fish_Log(
+                    name=fishName,
+                    date="5-12-24",
+                    weight="24kg",
+                    account_id=a_id
+                    
                     )
                 db.session.add(new_fish)
                 db.session.commit()
@@ -101,9 +119,10 @@ def home() :
                 session.clear()
                 return redirect("/login")
         else:
-            fishList= fishLog.query
+            fishList= fish_Log.query.filter(fish_Log.account_id == session['id'])
             return render_template("home.html",fishList=fishList,username=session['user'])
-    except:
+    except Exception as e:
+        print(e)
         return redirect("/login")
     
 if __name__== "__main__":
