@@ -10,12 +10,15 @@ Home
    <button type="submit" name= "submit_button" id="logout" value="logout" class="btn btn-primary text-left">Logout</button>
    <h1>Welcome, {{username}}</h1>
  <div class="input_txt">
-    <input type="text" class="form-control text-center mt-3" id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish">
+    <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish">
     <input type="text" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="Username" placeholder="Enter Date">
     <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="Username" placeholder="Enter weight">
-    <button type="submit" name="submit_button" value="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" name="submit_button" value="submit" class="btn btn-primary shadow">Submit</button>
 </div>
  </form>
+ {% for mesg in get_flashed_messages() %}
+ <h3 class="text-danger text-center">{{ mesg }}</h3>
+ {% endfor %}
  <br><br>
 <div class="text-center logs card-columns">
    {% for fish in fishList%}
@@ -24,6 +27,7 @@ Home
     <h5 class="card-title">{{fish.name}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
     <p class="card-text">Weight: {{fish.weight}}</p>
+    <a href={{url_for('delete',id=fish.id)}} class="btn btn-danger">Delete</a>
   </div>
 </div>
  {% endfor %}

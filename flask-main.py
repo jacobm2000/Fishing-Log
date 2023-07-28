@@ -93,7 +93,19 @@ def newAcc() :
         
     else:       
         return  render_template("newAcc.html")
-        
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    entry=fish_Log.query.get_or_404(id)
+    try:
+        db.session.delete(entry)
+        db.session.commit()
+        flash("Entry Deleted")
+        return redirect(url_for('home',username=session['user']))
+    except:
+        flash("Error")
+        return redirect(url_for('home',username=session['user']))
+
 @app.route("/home",methods=["POST","GET"])
 def home() :
     # an error means the user is not signed in so they are directed to the login page
