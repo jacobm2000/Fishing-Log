@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{user}}'s Log
+{% endblock %}
+ {% block content %}
+ <link rel = "stylesheet" type="text/css" href="/static/style.css">
+
+   <h1 class="text-center">{{user}}'s log</h1>
+
+ {% for mesg in get_flashed_messages() %}
+ <h3 class="text-primary text-center ">{{ mesg }}</h3>
+ {% endfor %}
+ <br><br>
+ <h3 class="text-center font-weight-bold">{{numFish}} fish logged</h3>
+<div class="text-center logs card-columns">
+   {% for fish in fishList%}
+   <div class="card m-5 shadow" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{fish.name}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
+    <p class="card-text">Weight: {{fish.weight}}</p>
+  </div>
+</div>
+ {% endfor %}
+ {% endblock %}
+
+</div>
+

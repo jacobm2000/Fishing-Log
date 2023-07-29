@@ -8,18 +8,23 @@ Home
 
  <form class="text-center" action="/home"  method="post" class="form">
    <button type="submit" name= "submit_button" id="logout" value="logout" class="btn btn-primary text-left">Logout</button>
-   <h1>Welcome, {{username}}</h1>
+   <h1 class="text-center">Welcome, {{username}}</h1>
  <div class="input_txt">
     <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish">
     <input type="text" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="Username" placeholder="Enter Date">
     <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="Username" placeholder="Enter weight">
-    <button type="submit" name="submit_button" value="submit" class="btn btn-primary shadow">Submit</button>
+    <button type="submit" name="submit_button" value="submit" class="btn btn-primary shadow">add entry</button>
+  <br><br>
+    <input type="text" class="form-control text-center mt-3 " id="user" name="user" aria-describedby="Username" placeholder="Enter Fish">
+    <button type="submit" name="submit_button" value="find_user" class="btn btn-primary shadow">find user</button>
+
 </div>
  </form>
  {% for mesg in get_flashed_messages() %}
- <h3 class="text-danger text-center">{{ mesg }}</h3>
+ <h3 class="text-primary text-center ">{{ mesg }}</h3>
  {% endfor %}
  <br><br>
+ <h3 class="text-center font-weight-bold">You have {{numFish}} fish logged</h3>
 <div class="text-center logs card-columns">
    {% for fish in fishList%}
    <div class="card m-5 shadow" style="width: 18rem;">
