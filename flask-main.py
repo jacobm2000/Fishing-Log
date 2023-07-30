@@ -94,6 +94,12 @@ def newAcc() :
     else:       
         return  render_template("newAcc.html")
 
+@app.route("/logout")
+def logout():
+            #if the user logs out their session is cleared and they are returned to login screen
+                session.clear()
+                return redirect("/login")
+
 @app.route("/delete/<int:id>")
 def delete(id):
     entry=fish_Log.query.get_or_404(id)
@@ -121,9 +127,9 @@ def home() :
                 
                 #if date or weight is empty they are marked as undefined
                 if(d==""):
-                    d="undefined"
+                    d="Not Specified"
                 if(w==""):
-                    w="undefined"
+                    w="Not Specified"
                     
                 new_fish=fish_Log(
                     name=fishName,
@@ -136,11 +142,7 @@ def home() :
                 db.session.commit()
                 flash("Fish added Successfully")
                 return redirect(url_for('home',username=session['user']))
-            
-            #if the user logs out their session is cleared and they are returned to login screen
-            elif (request.form['submit_button']=='logout'):
-                session.clear()
-                return redirect("/login")
+          
             elif (request.form['submit_button']=='find_user'):
                 user=str(request.form["user"])
                 try:
@@ -156,7 +158,6 @@ def home() :
             return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish)
 
     except Exception as e:
-        print(e)
         return redirect("/login")
         
 @app.route("/profile/<user>",methods=["GET"])
@@ -166,7 +167,6 @@ def profile(user) :
     try:
         
         userid=user[0].id
-        print(userid)
         user=user[0].username
         fishList= fish_Log.query.filter(fish_Log.account_id == userid)
         numFish=fishList.count()

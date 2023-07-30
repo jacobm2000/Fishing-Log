@@ -6,37 +6,57 @@ Home
  {% block content %}
  <link rel = "stylesheet" type="text/css" href="/static/style.css">
 
- <form class="text-center" action="/home"  method="post" class="form">
-   <button type="submit" name= "submit_button" id="logout" value="logout" class="btn btn-primary text-left">Logout</button>
-   <h1 class="text-center">Welcome, {{username}}</h1>
- <div class="input_txt">
-    <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish">
-    <input type="text" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="Username" placeholder="Enter Date">
-    <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="Username" placeholder="Enter weight">
-    <button type="submit" name="submit_button" value="submit" class="btn btn-primary shadow">add entry</button>
-  <br><br>
-    <input type="text" class="form-control text-center mt-3 " id="user" name="user" aria-describedby="Username" placeholder="Enter Fish">
-    <button type="submit" name="submit_button" value="find_user" class="btn btn-primary shadow">find user</button>
 
-</div>
- </form>
- {% for mesg in get_flashed_messages() %}
- <h3 class="text-primary text-center ">{{ mesg }}</h3>
- {% endfor %}
- <br><br>
- <h3 class="text-center font-weight-bold">You have {{numFish}} fish logged</h3>
-<div class="text-center logs card-columns">
-   {% for fish in fishList%}
-   <div class="card m-5 shadow" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">{{fish.name}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
-    <p class="card-text">Weight: {{fish.weight}}</p>
-    <a href={{url_for('delete',id=fish.id)}} class="btn btn-danger">Delete</a>
+ <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Fish Log</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        
+        </li>
+      </ul>
+    </div>
+    <a class="nav-lin logout"  href="/logout">Logout</a>
+  </nav>
+
+
+  <form class="text-center" action="/home"  method="post" class="form">
+   
+    <h1 class="text-center">Welcome, {{username}}</h1>
+  <div class="input_txt">
+      <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish">
+      <input type="text" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="Username" placeholder="Enter Date">
+      <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="Username" placeholder="Enter weight">
+      <button type="submit" name="submit_button" value="submit" class="btn btn-primary shadow">add entry</button>
+    <br><br>
+      <input type="text" class="form-control text-center mt-3 " id="user" name="user" aria-describedby="Username" placeholder="Username">
+      <button type="submit" name="submit_button" value="find_user" class="btn btn-primary shadow">find user</button>
+
   </div>
-</div>
- {% endfor %}
- {% endblock %}
+  </form>
+  {% for mesg in get_flashed_messages() %}
+  <h3 class="text-primary text-center ">{{ mesg }}</h3>
+  {% endfor %}
+  <br><br>
+  <h3 class="text-center font-weight-bold">You have {{numFish}} fish logged</h3>
+  <div class="text-center logs card-columns">
+    {% for fish in fishList%}
+    <div class="card m-5 shadow" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{fish.name}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
+      <p class="card-text">Weight: {{fish.weight}}</p>
+      <a href={{url_for('delete',id=fish.id)}} class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+  {% endfor %}
+  {% endblock %}
 
-</div>
+  </div>
+</body>
 

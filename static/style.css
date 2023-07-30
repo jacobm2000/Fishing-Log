@@ -1,9 +1,9 @@
-#logout{
-    text-align: left;
-    align-items: left;
- 
-    float:left;
-    
+.logout
+{display: block;
+    float: left;
+   color: white;
+   text-decoration: underline;
+   font-weight: bold;
 }
 .card{
     margin: 0 auto;

@@ -8,6 +8,13 @@ body{
     
     
 }
+.logout
+{display: block;
+    float: left;
+   color: white;
+   text-decoration: underline;
+   font-weight: bold;
+}
 h1{
     text-align: center;
  
