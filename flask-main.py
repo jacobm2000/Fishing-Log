@@ -145,6 +145,9 @@ def home() :
           
             elif (request.form['submit_button']=='find_user'):
                 user=str(request.form["user"])
+                if(user==""):
+                    flash("User input is blank, please input a username")
+                    return redirect(url_for('home',username=session['user']))
                 try:
                       return redirect(url_for('profile',user=user))
                 except Exception as e:
