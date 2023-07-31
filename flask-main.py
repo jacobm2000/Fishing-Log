@@ -17,6 +17,7 @@ Session(app)
 class fish_Log(db.Model):
    id = db.Column('fish_id', db.Integer, primary_key = True)
    name= db.Column(db.String(50))
+   image= db.Column(db.String(50))
    date= db.Column(db.String(50))
    weight=db.Column(db.String(50))
    account_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
@@ -133,11 +134,13 @@ def home() :
                     
                 new_fish=fish_Log(
                     name=fishName,
+                    image="/images/bass.jpg",
                     date=d,
                     weight=w,
                     account_id=a_id
                     
                     )
+                print(new_fish.image)
                 db.session.add(new_fish)
                 db.session.commit()
                 flash("Fish added Successfully")

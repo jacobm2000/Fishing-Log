@@ -12,10 +12,12 @@
    
 }
 .input_txt{
-width: 10rem;
+width: 30rem;
 margin: 0 auto;
     float: none;
     margin-bottom: 3rem;
   
 }
-
+.input_file{
+    
+}

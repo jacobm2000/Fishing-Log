@@ -24,19 +24,26 @@ Home
     <a class="nav-lin logout"  href="/logout">Logout</a>
   </nav>
 
+  <h1 class="text-center">Welcome, {{username}}</h1>
+  
+  <form class="text-center items-center" action="/home"  method="post" class="form">
+    
+    
 
-  <form class="text-center" action="/home"  method="post" class="form">
+
    
-    <h1 class="text-center">Welcome, {{username}}</h1>
   <div class="input_txt">
-    <p class="font-weight-bold">Log Info<p>
+    
+
+      <input class="mt-5" type="file" id="formFile" name="image" >
+        <small><p>Choose an image file<p><small>
       <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish">
       <input type="text" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="Username" placeholder="Enter Date">
       <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="Username" placeholder="Enter weight">
       <button type="submit" name="submit_button" value="submit" class="btn btn-success shadow">add entry</button>
     <br><br>
       <p class="font-weight-bold">User Search<p>
-      <input type="text" class="form-control text-center mt-3 " id="user" name="user" aria-describedby="Username" placeholder="Username">
+      <input type="text" class=" text-center mt-3 " id="user" name="user" aria-describedby="Username" placeholder="Username">
       <button type="submit" name="submit_button" value="find_user" class="btn btn-primary shadow mt-3">View User's Log</button>
 
   </div>
@@ -45,12 +52,14 @@ Home
   <h3 class="text-secondary text-center font-weight-bold ">{{ mesg }}</h3>
   {% endfor %}
   <br><br>
+ 
   <h3 class="text-center font-weight-bold">You have {{numFish}} fish logged</h3>
   <div class="text-center logs card-columns">
     {% for fish in fishList%}
     <div class="card m-5 shadow" style="width: 18rem;">
+    <h5 class="card-title">{{fish.name}}</h5>
+    <img class="card-img-top" src="static\images\bass.jpg" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">{{fish.name}}</h5>
       <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
       <p class="card-text">Weight: {{fish.weight}}</p>
       <a href={{url_for('delete',id=fish.id)}} class="btn btn-danger">Delete</a>
