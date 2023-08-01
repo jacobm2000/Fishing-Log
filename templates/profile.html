@@ -39,11 +39,12 @@
  {% endfor %}
  <br><br>
  <h3 class="text-center font-weight-bold">{{numFish}} fish logged</h3>
-<div class="text-center logs card-columns">
-   {% for fish in fishList%}
-   <div class="card m-5 shadow" style="width: 18rem;">
+ <div class="text-center logs card-columns">
+  {% for fish in fishList%}
+  <div class="card m-5 shadow" style="width: 18rem;">
+  <h5 class="card-title">{{fish.name}}</h5>
+  <img class="card-img-top" src={{ url_for('static', filename=fish.image )}} alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">{{fish.name}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
     <p class="card-text">Weight: {{fish.weight}}</p>
   </div>

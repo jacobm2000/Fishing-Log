@@ -157,13 +157,12 @@ def home() :
                     
                 new_fish=fish_Log(
                     name=fishName,
-                    image="/images/bass.jpg",
+                    image="images/bass.webp",
                     date=d,
                     weight=w,
                     account_id=a_id
                     
                     )
-                print(new_fish.image)
                 db.session.add(new_fish)
                 db.session.commit()
                 flash("Fish added Successfully")
@@ -187,6 +186,7 @@ def home() :
             return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish)
 
     except Exception as e:
+        print(e)
         return redirect("/login")
         
 @app.route("/profile/<user>",methods=["GET"])

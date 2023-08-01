@@ -19,5 +19,7 @@ margin: 0 auto;
   
 }
 .search-Result{
+    font-weight: bold;
+    color: black;
     font-size: 2rem;
 }

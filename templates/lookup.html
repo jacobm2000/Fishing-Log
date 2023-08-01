@@ -29,7 +29,7 @@ Lookup
   </nav>
   
   <form class="text-center items-center" action="/lookup"  method="post" class="form">
-  <div class="input_txt">
+  <div class="input_txt mt-5">
       <p class="font-weight-bold">User Search</p>
       <input type="text" class=" text-center mt-1 "  name="term" aria-describedby="Username" placeholder="Username">
       <br>
@@ -37,12 +37,15 @@ Lookup
 
   </div>
   </form>
+  <h3 class="text-center">Results:<h3>
+    
   {% for mesg in get_flashed_messages() %}
-    <h3 class="text-secondary text-center font-weight-bold ">{{ mesg }}</h3>
+    <h3 class="text-Dark text-center font-weight-bold ">{{ mesg }}</h3>
   {% endfor %}
   {% for user in users%}
   <p class="text-center">
-    <a class="search-Result" href="/profile/{{user.username}}">{{user.username}}</a>
+    <span class="search-Result">{{user.username}}</span><br>
+   <a class=" btn btn-success view-btn" href="/profile/{{user.username}}">view log</a></small>
   </p>
   {% endfor %}
   {% endblock %}

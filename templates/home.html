@@ -59,7 +59,7 @@ Home
     {% for fish in fishList%}
     <div class="card m-5 shadow" style="width: 18rem;">
     <h5 class="card-title">{{fish.name}}</h5>
-    <img class="card-img-top" src="static\images\bass.jpg" alt="Card image cap">
+    <img class="card-img-top" src={{ url_for('static', filename=fish.image )}} alt="Card image cap">
     <div class="card-body">
       <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
       <p class="card-text">Weight: {{fish.weight}}</p>
