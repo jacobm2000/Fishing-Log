@@ -62,7 +62,7 @@ def login():
 @app.route("/newacc",methods=["POST","GET"])
 def newAcc() :
     if request.method=="POST":
-   
+
         session['user']=str(request.form["username"])
         passw=str(request.form["password"])
         
@@ -101,6 +101,29 @@ def logout():
                 session.clear()
                 return redirect("/login")
 
+
+@app.route("/lookup",methods=["POST","GET"])
+def lookup():
+    users=""
+    if request.method=="POST":
+      
+      
+        try:
+            s =str( request.form["term"])
+            print(s)
+            users = accounts.query.filter(accounts.username.like('%'+s+'%'))
+            if(s==""):
+                 flash("Search Box is empty please input a username")
+                 return redirect(url_for('lookup',users=users))
+            elif(users[0].username==""):
+                flash("No results found")
+                return redirect(url_for('lookup',users=users))
+            return render_template("lookup.html",users=users)
+        except Exception as e:
+            flash("No results found")
+            return redirect(url_for('lookup',users=users))
+   
+    return render_template("lookup.html",users=users)
 @app.route("/delete/<int:id>")
 def delete(id):
     entry=fish_Log.query.get_or_404(id)

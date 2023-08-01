@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+Lookup
+{% endblock %}
+ {% block content %}
+ <link rel = "stylesheet" type="text/css" href="/static/style.css">
+
+
+ <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand text-light" >Fish Log</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/home">Home <span class="sr-only"></span></a>
+        
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Lookup <span class="sr-only"></span></a>
+          
+          </li>
+      </ul>
+    </div>
+    <a class="nav-lin logout"  href="/logout">Logout</a>
+  </nav>
+  
+  <form class="text-center items-center" action="/lookup"  method="post" class="form">
+  <div class="input_txt">
+      <p class="font-weight-bold">User Search</p>
+      <input type="text" class=" text-center mt-1 "  name="term" aria-describedby="Username" placeholder="Username">
+      <br>
+      <button method= type="submit" name="search" class="btn btn-primary shadow mt-3">Search For User</button>
+
+  </div>
+  </form>
+  {% for mesg in get_flashed_messages() %}
+    <h3 class="text-secondary text-center font-weight-bold ">{{ mesg }}</h3>
+  {% endfor %}
+  {% for user in users%}
+  <p class="text-center">
+    <a class="search-Result" href="/profile/{{user.username}}">{{user.username}}</a>
+  </p>
+  {% endfor %}
+  {% endblock %}
+
+  </div>
+</body>
+

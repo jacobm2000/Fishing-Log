@@ -9,7 +9,7 @@ Home
 
  <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Fish Log</a>
+    <a class="navbar-brand text-light">Fish Log</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,6 +19,10 @@ Home
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         
         </li>
+       <li class="nav-item">
+            <a class="nav-link" href="/lookup">Lookup <span class="sr-only"></span></a>
+          
+          </li>
       </ul>
     </div>
     <a class="nav-lin logout"  href="/logout">Logout</a>
@@ -41,11 +45,7 @@ Home
       <input type="text" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="Username" placeholder="Enter Date">
       <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="Username" placeholder="Enter weight">
       <button type="submit" name="submit_button" value="submit" class="btn btn-success shadow">add entry</button>
-    <br><br>
-      <p class="font-weight-bold">User Search</p>
-      <input type="text" class=" text-center mt-1 " id="user" name="user" aria-describedby="Username" placeholder="Username">
-      <br>
-      <button type="submit" name="submit_button" value="find_user" class="btn btn-primary shadow mt-3">View User's Log</button>
+    
 
   </div>
   </form>
