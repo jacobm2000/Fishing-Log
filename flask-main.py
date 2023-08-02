@@ -2,6 +2,7 @@
 from flask import Flask, render_template,request,redirect,flash,url_for,session
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+import hashlib
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///fish.sqlite3'
@@ -44,6 +45,7 @@ def login():
         if (request.form['submit_button']=='login'):
             session['user']=str(request.form["username"])
             passw=str(request.form["password"])
+            passw=hashlib.sha256(passw.encode('utf-8')).hexdigest()
             checkUser=accounts.query.filter_by(username=session['user'],password=passw)
             
                 #if user is not in db then it will throw an exception and the user can be added
@@ -65,6 +67,7 @@ def newAcc() :
 
         session['user']=str(request.form["username"])
         passw=str(request.form["password"])
+        passw=hashlib.sha256(passw.encode('utf-8')).hexdigest()
         
         #checks to make username or password are not empty
         if( str(request.form["username"])=="" or passw==""):
