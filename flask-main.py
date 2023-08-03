@@ -12,6 +12,11 @@ app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///fish.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY']='632h3232ss'
 
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'webp'])
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 db = SQLAlchemy(app)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -166,6 +171,10 @@ def home() :
                 if(pic.filename==""):
                     flash("No image chosen, please choose an image")
                     return redirect("home")
+                elif(allowed_file(pic.filename)==False):
+                    flash("File type not supported, supported file types are png, jpg, jpeg, and webp")
+                    return redirect("home")
+                    
                 pic_filename=secure_filename(pic.filename)
                 #adds uuid to each pic so each filename is unique when stored
                 pic_name=str(uuid.uuid1())+"_"+pic_filename
