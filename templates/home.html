@@ -30,7 +30,7 @@ Home
 
   <h1 class="text-center">Welcome, {{username}}</h1>
   
-  <form class="text-center items-center" action="/home"  method="post" class="form">
+  <form class="text-center items-center" action="/home"  method="post" class="form" enctype="multipart/form-data">
     
     
 
@@ -41,7 +41,7 @@ Home
 
       <input class="mt-5" type="file" id="formFile" name="image" >
         <small><p>Choose an image file</p></small>
-      <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish">
+      <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Username" placeholder="Enter Fish Name">
       <input type="text" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="Username" placeholder="Enter Date">
       <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="Username" placeholder="Enter weight">
       <button type="submit" name="submit_button" value="submit" class="btn btn-success shadow">add entry</button>

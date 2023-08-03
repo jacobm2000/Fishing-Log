@@ -3,6 +3,9 @@ from flask import Flask, render_template,request,redirect,flash,url_for,session
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
+from werkzeug.utils import secure_filename
+import os
+import uuid as uuid
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///fish.sqlite3'
@@ -13,6 +16,8 @@ db = SQLAlchemy(app)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 
+UPLOAD_FOLDER ='static/images'
+app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 Session(app)
 
 class fish_Log(db.Model):
@@ -113,7 +118,6 @@ def lookup():
       
         try:
             s =str( request.form["term"])
-            print(s)
             users = accounts.query.filter(accounts.username.like('%'+s+'%'))
             if(s==""):
                  flash("Search Box is empty please input a username")
@@ -131,12 +135,16 @@ def lookup():
 def delete(id):
     entry=fish_Log.query.get_or_404(id)
     try:
+        file = entry.image.replace("images/","")  
+        location = app.config['UPLOAD_FOLDER']
+        path = os.path.join(location, file)  
+        os.remove(path)
         db.session.delete(entry)
         db.session.commit()
         flash("Entry Deleted")
         return redirect(url_for('home',username=session['user']))
-    except:
-        flash("Error")
+    except Exception as e:
+        flash(e)
         return redirect(url_for('home',username=session['user']))
 
 @app.route("/home",methods=["POST","GET"])
@@ -149,9 +157,19 @@ def home() :
                 a_id = accounts.query.filter(accounts.username==session['user'])
                 a_id=a_id[0].id
                 fishName= str(request.form["fish"])
+                if(fishName==""):
+                    flash("No fish name Inputed, please enter a fish name")
+                    return redirect("home")
                 d= str(request.form["date"])
                 w= str(request.form["weight"])
-                
+                pic=(request.files["image"])
+                if(pic.filename==""):
+                    flash("No image chosen, please choose an image")
+                    return redirect("home")
+                pic_filename=secure_filename(pic.filename)
+                #adds uuid to each pic so each filename is unique when stored
+                pic_name=str(uuid.uuid1())+"_"+pic_filename
+                pic.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
                 #if date or weight is empty they are marked as undefined
                 if(d==""):
                     d="Not Specified"
@@ -160,11 +178,11 @@ def home() :
                     
                 new_fish=fish_Log(
                     name=fishName,
-                    image="images/bass.webp",
+                    image="images/"+str(pic_name),
                     date=d,
                     weight=w,
-                    account_id=a_id
-                    
+                    account_id=a_id,
+
                     )
                 db.session.add(new_fish)
                 db.session.commit()
@@ -179,6 +197,7 @@ def home() :
                 try:
                       return redirect(url_for('profile',user=user))
                 except Exception as e:
+                    
                     flash(e)
                     return redirect(url_for('home',username=session['user']))
                    
@@ -189,7 +208,6 @@ def home() :
             return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish)
 
     except Exception as e:
-        print(e)
         return redirect("/login")
         
 @app.route("/profile/<user>",methods=["GET"])
