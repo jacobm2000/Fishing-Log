@@ -41,15 +41,15 @@
  <div class="text-center logs card-columns">
   {% for fish in fishList%}
   <div class="card m-5 shadow" style="width: 18rem;">
-  <h5 class="card-title">{{fish.name}}</h5>
-  <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fish.image )}} alt="Card image cap">
-  <div class="card-body">
-    <p class="card-text"><b>Date:</b> {{fish.date}}</p>
-    <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
-    <p class="card-text"><b>Length:</b> {{fish.length}}</p>
-    <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
+    <h5 class="card-title mt-3">{{fish.name}}</h5>
+    <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fish.image )}} alt="Card image cap">
+    <div class="card-body">
+      <p class="card-text"><b>Date:</b> {{fish.date}}</p>
+      <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
+      <p class="card-text"><b>Length:</b> {{fish.length}}</p>
+      <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
+    </div>
   </div>
-</div>
  {% endfor %}
  {% endblock %}
 
