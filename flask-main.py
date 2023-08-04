@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///fish.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY']='632h3232ss'
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'webp'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'webp','jfif'])
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -31,6 +31,8 @@ class fish_Log(db.Model):
    image= db.Column(db.String(50))
    date= db.Column(db.String(50))
    weight=db.Column(db.String(50))
+   length=db.Column(db.String(50))
+   lure=db.Column(db.String(50))
    account_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
 def __init__(self, name, account_id):
    self.name = name
@@ -167,12 +169,14 @@ def home() :
                     return redirect("home")
                 d= str(request.form["date"])
                 w= str(request.form["weight"])
+                length= str(request.form["length"])
+                lure= str(request.form["lure"])
                 pic=(request.files["image"])
                 if(pic.filename==""):
                     flash("No image chosen, please choose an image")
                     return redirect("home")
                 elif(allowed_file(pic.filename)==False):
-                    flash("File type not supported, supported file types are png, jpg, jpeg, and webp")
+                    flash("File type not supported, supported file types are png, jpg, jpeg, webp, and jfif")
                     return redirect("home")
                     
                 pic_filename=secure_filename(pic.filename)
@@ -184,12 +188,18 @@ def home() :
                     d="Not Specified"
                 if(w==""):
                     w="Not Specified"
+                if(length==""):
+                    length="Not Specified"
+                if(lure==""):
+                    lure="Not Specified"
                     
                 new_fish=fish_Log(
                     name=fishName,
                     image="images/"+str(pic_name),
                     date=d,
                     weight=w,
+                    length=length,
+                    lure=lure,
                     account_id=a_id,
 
                     )

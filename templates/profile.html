@@ -7,7 +7,7 @@
  <link rel = "stylesheet" type="text/css" href="/static/style.css">
 
  <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary pr-4">
     <a class="navbar-brand text-light" >Fish Log</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -38,15 +38,16 @@
  <h3 class="text-primary text-center ">{{ mesg }}</h3>
  {% endfor %}
  <br><br>
- <h3 class="text-center font-weight-bold">{{numFish}} fish logged</h3>
  <div class="text-center logs card-columns">
   {% for fish in fishList%}
   <div class="card m-5 shadow" style="width: 18rem;">
   <h5 class="card-title">{{fish.name}}</h5>
-  <img class="card-img-top" src={{ url_for('static', filename=fish.image )}} alt="Card image cap">
+  <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fish.image )}} alt="Card image cap">
   <div class="card-body">
-    <h6 class="card-subtitle mb-2 text-muted">Date: {{fish.date}}</h6>
-    <p class="card-text">Weight: {{fish.weight}}</p>
+    <p class="card-text"><b>Date:</b> {{fish.date}}</p>
+    <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
+    <p class="card-text"><b>Length:</b> {{fish.length}}</p>
+    <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
   </div>
 </div>
  {% endfor %}
