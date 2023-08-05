@@ -1,7 +1,6 @@
 # Fishing-Log
-Simple flask app with a database that allows users to log fish they caught and also see other users logs. With each log users can add info about their
-catch aswell as a picture. All of their logs are displayed on their home page and a similar view only version of others logs is easily accesable using the lookup page
-
+Simple flask app with a database that allows users to create a profile and log catches to their profile. Users can also view other's profiles using the lookup fuctionality.
+This will lead the user to a view similar to their own homepage but the ability to insert or remove logs is not present.
 ##  Screenshots
  
  ### Login Page
