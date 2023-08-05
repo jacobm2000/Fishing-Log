@@ -19,4 +19,4 @@ This will lead the user to a view similar to their own homepage but the ability 
 ![](./screenshots/home-demo.gif)
 
 ### Profile
-![](./screenshots/mobile-profile.JPG)
+![](./screenshots/profile-demo.gif)
