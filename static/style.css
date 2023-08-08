@@ -38,6 +38,9 @@ body {
     .card-text{
         font-size: 1.75rem;
     }
+    .card-title{
+        font-size: 2rem;
+    }
     .card-columns {
         column-count: 2;
 
