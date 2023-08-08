@@ -1,38 +1,59 @@
-.logout
-{display: block;
+.logout {
+    display: block;
     float: left;
-   color: white;
-   text-decoration: underline;
-   font-weight: bold;
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
-body{
+body {
     background-color: rgba(195, 227, 238, 0.336);
 }
-.card{
+
+.card {
     margin: 0 auto;
     float: none;
     margin-bottom: 3rem;
-   
+
 }
 
-.input_txt{
-width: 30rem;
-margin: 0 auto;
+.input_txt {
+    width: 30rem;
+    margin: 0 auto;
     float: none;
     margin-bottom: 3rem;
-  
+
 }
-.search-Result{
+
+.search-Result {
     font-weight: bold;
     color: black;
     font-size: 2rem;
 }
 
 @media only screen and (max-width: 1200px) {
-    
-    .card-columns{
-        column-count: 2;
-       
+    nav {
+        font-size: 2rem;
     }
-  }
+    .card-text{
+        font-size: 1.75rem;
+    }
+    .card-columns {
+        column-count: 2;
+
+    }
+    .alert{
+        font-size: 1.5rem;
+    }
+    .btn {
+        font-size: 2rem;
+    }
+    form{font-size: 2rem;
+    }
+    .form-control{
+        font-size: 2.5rem;
+    }
+    .font-weight-bold{
+        font-size: 3rem;
+    }
+}

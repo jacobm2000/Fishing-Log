@@ -27,3 +27,16 @@ form{
 .form-control{
     margin-left: 25%;
 }
+
+@media only screen and (max-width: 1200px) {
+    .form-control{
+        font-size: 2rem;
+    }
+    .btn{
+        font-size: 2rem;
+    }
+    label{
+        font-size: 2.5rem;
+    }
+
+}
