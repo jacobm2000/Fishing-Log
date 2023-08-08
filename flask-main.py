@@ -49,7 +49,7 @@ def __init__(self,username,password,fishlogs):
    self.password= password
    
 db.create_all()
-
+@app.route("/",methods=["POST","GET"])
 @app.route("/login",methods=["GET","POST"])
 def login():
          
