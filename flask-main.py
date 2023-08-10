@@ -124,7 +124,7 @@ def lookup():
       
       
         try:
-            s =str( request.form["term"])
+            s =str( request.form["term"]).strip()
             users = accounts.query.filter(accounts.username.like('%'+s+'%'))
             if(s==""):
                  flash("Search Box is empty please input a username")
