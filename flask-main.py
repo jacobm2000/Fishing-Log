@@ -55,8 +55,8 @@ def login():
          
     if(request.method=="POST"):
         if (request.form['submit_button']=='login'):
-            session['user']=str(request.form["username"])
-            passw=str(request.form["password"])
+            session['user']=str(request.form["username"]).strip()
+            passw=str(request.form["password"]).strip()
             passw=hashlib.sha256(passw.encode('utf-8')).hexdigest()
             checkUser=accounts.query.filter_by(username=session['user'],password=passw)
             
@@ -77,8 +77,8 @@ def login():
 def newAcc() :
     if request.method=="POST":
 
-        session['user']=str(request.form["username"])
-        passw=str(request.form["password"])
+        user=str(request.form["username"]).strip()
+        passw=str(request.form["password"]).strip()
         passw=hashlib.sha256(passw.encode('utf-8')).hexdigest()
         
         #checks to make username or password are not empty
@@ -86,19 +86,21 @@ def newAcc() :
             flash("username or password feild is empty")
             return  render_template("newAcc.html")
         
-        checkUser=accounts.query.filter_by(username=session['user'])
+        checkUser=accounts.query.filter_by(username=user)
         
         #if user is not in db then it will throw an exception and the user can be added
         try:
+           print("moo")
            checkUser[0]
            flash('username taken')
+           #session.clear()
            return redirect('/newacc')
            
           
            
         except:
             new_user=accounts(
-                username=session['user'],
+                username=user,
                 password=passw
                 )
             db.session.add(new_user)
@@ -196,10 +198,10 @@ def home() :
                 new_fish=fish_Log(
                     name=fishName,
                     image="images/"+str(pic_name),
-                    date=d,
-                    weight=w,
-                    length=length,
-                    lure=lure,
+                    date=d.strip(),
+                    weight=w.strip(),
+                    length=length.strip(),
+                    lure=lure.strip(),
                     account_id=a_id,
 
                     )
