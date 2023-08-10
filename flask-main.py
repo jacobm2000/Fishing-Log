@@ -48,7 +48,7 @@ def __init__(self,username,password,fishlogs):
    self.username = username
    self.password= password
    
-db.create_all()
+#db.create_all()
 @app.route("/",methods=["POST","GET"])
 @app.route("/login",methods=["GET","POST"])
 def login():
@@ -90,7 +90,7 @@ def newAcc() :
         
         #if user is not in db then it will throw an exception and the user can be added
         try:
-           print("moo")
+           
            checkUser[0]
            flash('username taken')
            #session.clear()
