@@ -55,9 +55,11 @@ def login():
    
 #check to see if user is logged in and if they are bring them to the home page
 #and if not do nothing
-   try:
+    try:
+      session['user']
       return redirect(url_for("home",username=session['user']))
-   except:
+    except:
+       pass
        
     
         
@@ -70,12 +72,13 @@ def login():
             
                 #if user is not in db then it will throw an exception and the user can be added
             try:
-                   checkUser[0]
+                   print(checkUser[0])
                    session["id"]=checkUser[0].id
                    return redirect(url_for("home",username=session['user']))
             except Exception as e:
+                session.clear()
                 flash("password or username incorrect")
-                return redirect('/login')
+                return render_template("login.html")
         if (request.form['submit_button']=='signup'):
             return redirect('/newacc')
     else:
