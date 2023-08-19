@@ -52,7 +52,15 @@ def __init__(self,username,password,fishlogs):
 @app.route("/",methods=["POST","GET"])
 @app.route("/login",methods=["GET","POST"])
 def login():
-         
+   
+#check to see if user is logged in and if they are bring them to the home page
+#and if not do nothing
+   try:
+      return redirect(url_for("home",username=session['user']))
+   except:
+       
+    
+        
     if(request.method=="POST"):
         if (request.form['submit_button']=='login'):
             session['user']=str(request.form["username"]).strip()
@@ -64,7 +72,7 @@ def login():
             try:
                    checkUser[0]
                    session["id"]=checkUser[0].id
-                   return redirect(url_for(".home",username=session['user']))
+                   return redirect(url_for("home",username=session['user']))
             except Exception as e:
                 flash("password or username incorrect")
                 return redirect('/login')
@@ -118,7 +126,6 @@ def logout():
                 session.clear()
                 return redirect("/login")
 
-
 @app.route("/lookup",methods=["POST","GET"])
 def lookup():
     users=""
@@ -128,16 +135,18 @@ def lookup():
         try:
             s =str( request.form["term"]).strip()
             users = accounts.query.filter(accounts.username.like('%'+s+'%'))
+            term=s
             if(s==""):
                  flash("Search Box is empty please input a username")
-                 return redirect(url_for('lookup',users=users))
+                 return redirect(url_for('lookup',users=[]))
             elif(users[0].username==""):
                 flash("No results found")
-                return redirect(url_for('lookup',users=users))
+                return redirect(url_for('lookup',users=[]))
             return render_template("lookup.html",users=users)
         except Exception as e:
             flash("No results found")
-            return redirect(url_for('lookup',users=users))
+
+            return redirect(url_for('lookup',users=[]))
    
     return render_template("lookup.html",users=users)
 @app.route("/delete/<int:id>")
