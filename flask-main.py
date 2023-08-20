@@ -47,12 +47,20 @@ class accounts(db.Model):
 def __init__(self,username,password,fishlogs):
    self.username = username
    self.password= password
-   
-#db.create_all()
+
+class followList(db.Model):
+    id = db.Column('follow_id', db.Integer, primary_key = True)
+    follower_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
+    followee_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
+    
+def __init__(self,follower_id, followee_id):
+   self.follower_id =follower_id
+   self.followee_id= followee_id
+db.create_all()
 @app.route("/",methods=["POST","GET"])
 @app.route("/login",methods=["GET","POST"])
 def login():
-   
+
 #check to see if user is logged in and if they are bring them to the home page
 #and if not do nothing
     try:
@@ -132,6 +140,14 @@ def logout():
 @app.route("/lookup",methods=["POST","GET"])
 def lookup():
     users=""
+    #checks top see if users is logged in and if not returns them to the login page
+    try:
+        if(session['user']):
+            pass
+    except:
+        flash("Cant access page please login")
+        
+        return redirect("/login")
     if request.method=="POST":
       
       
@@ -156,18 +172,45 @@ def lookup():
 def delete(id):
     entry=fish_Log.query.get_or_404(id)
     try:
-        file = entry.image.replace("images/","")  
-        location = app.config['UPLOAD_FOLDER']
-        path = os.path.join(location, file)  
-        os.remove(path)
-        db.session.delete(entry)
-        db.session.commit()
-        flash("Entry Deleted")
-        return redirect(url_for('home',username=session['user']))
+        if(entry.account_id==session["id"]):
+            file = entry.image.replace("images/","")  
+            location = app.config['UPLOAD_FOLDER']
+            path = os.path.join(location, file)  
+            os.remove(path)
+            db.session.delete(entry)
+            db.session.commit()
+            flash("Entry Deleted")
+            return redirect(url_for('home',username=session['user']))
+        else:
+            flash("Access Denied")
+            return redirect(url_for('home',username=session['user']))
     except Exception as e:
         flash(e)
         return redirect(url_for('home',username=session['user']))
 
+
+@app.route("/follow/<int:id>")
+def follow(id):
+    user=accounts.query.filter(accounts.id==id)[0].username
+    try:
+    
+        followList.query.filter(followList.follower_id == session['id'], followList.followee_id==id)[0]
+       
+        
+        return redirect("/profile/"+user)
+    except Exception as e:
+        print(e)
+        new_follow=followList(
+            follower_id = session['id'],
+            followee_id=id
+
+                    )
+        db.session.add(new_follow)
+        db.session.commit()
+        return redirect("/profile/"+user)
+        
+    
+    
 @app.route("/home",methods=["POST","GET"])
 def home() :
     # an error means the user is not signed in so they are directed to the login page
@@ -245,6 +288,13 @@ def home() :
         
 @app.route("/profile/<user>",methods=["GET"])
 def profile(user) :
+        #checks top see if users is logged in and if not returns them to the login page
+    try:
+        if(session['user']):
+            pass
+    except:
+        flash("Cant access page please login")
+        return redirect('/login')
 
     user=accounts.query.filter_by(username=user)
     try:
@@ -253,7 +303,7 @@ def profile(user) :
         user=user[0].username
         fishList= fish_Log.query.filter(fish_Log.account_id == userid)
         numFish=fishList.count()
-        return render_template("profile.html",fishList=fishList,user=user,numFish=numFish)
+        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish)
     except:
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))
