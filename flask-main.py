@@ -195,11 +195,10 @@ def follow(id):
     try:
     
         followList.query.filter(followList.follower_id == session['id'], followList.followee_id==id)[0]
-       
+        flash("already following User")
         
         return redirect("/profile/"+user)
-    except Exception as e:
-        print(e)
+    except:
         new_follow=followList(
             follower_id = session['id'],
             followee_id=id
@@ -279,11 +278,14 @@ def home() :
                    
         else:
             
+            #gets list of people the logged in user is following
+            f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
             fishList= fish_Log.query.filter(fish_Log.account_id == session['id'])
             numFish=fishList.count()
-            return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish)
+            return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish,followList=f)
 
     except Exception as e:
+        print(e)
         return redirect("/login")
         
 @app.route("/profile/<user>",methods=["GET"])

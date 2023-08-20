@@ -39,6 +39,7 @@
       <h1>{{user}}'s log</h1>
       <a href="/follow/{{userid}}" class="btn btn-success">Follow</a>
   </div>
+  
  {% for mesg in get_flashed_messages() %}
  <h3 class="text-primary text-center ">{{ mesg }}</h3>
  {% endfor %}
