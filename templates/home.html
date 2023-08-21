@@ -30,7 +30,7 @@ Home
       <button type="button" class="btn text-light mr-5 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Follow List
       </button>
-      <div class="dropdown-menu text-center">
+      <div class="dropdown-menu text-center mr-2 ml-2">
         <h4> Following:</h4>
         {% for user in followList%}
         <li><a class="dropdown-item" href="/profile/{{user.username}}">{{user.username}}</a></li>

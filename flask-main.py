@@ -298,7 +298,7 @@ def profile(user) :
               id= accounts.query.filter(accounts.username==user)[0].id
               followList.query.filter(followList.follower_id == str(session['id']), followList.followee_id==id)[0]
               follow="unfollow"
-            except:
+            except :
                  follow="follow"
                 
             
