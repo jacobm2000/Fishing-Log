@@ -80,7 +80,6 @@ def login():
             
                 #if user is not in db then it will throw an exception and the user can be added
             try:
-                   print(checkUser[0])
                    session["id"]=checkUser[0].id
                    return redirect(url_for("home",username=session['user']))
             except Exception as e:
@@ -191,12 +190,14 @@ def delete(id):
 
 @app.route("/follow/<int:id>")
 def follow(id):
+    
+            
     user=accounts.query.filter(accounts.id==id)[0].username
     try:
     
-        followList.query.filter(followList.follower_id == session['id'], followList.followee_id==id)[0]
-        flash("already following User")
-        
+        f=followList.query.filter(followList.follower_id == session['id'], followList.followee_id==id)[0]
+        db.session.delete(f)
+        db.session.commit()
         return redirect("/profile/"+user)
     except:
         new_follow=followList(
@@ -271,9 +272,8 @@ def home() :
                     return redirect(url_for('home',username=session['user']))
                 try:
                       return redirect(url_for('profile',user=user))
-                except Exception as e:
+                except:
                     
-                    flash(e)
                     return redirect(url_for('home',username=session['user']))
                    
         else:
@@ -284,16 +284,24 @@ def home() :
             numFish=fishList.count()
             return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish,followList=f)
 
-    except Exception as e:
-        print(e)
+    except:
         return redirect("/login")
         
 @app.route("/profile/<user>",methods=["GET"])
 def profile(user) :
         #checks top see if users is logged in and if not returns them to the login page
+  
     try:
         if(session['user']):
-            pass
+            #check to see if the user is already following this user and if so change the button to unfollow
+            try:
+              id= accounts.query.filter(accounts.username==user)[0].id
+              followList.query.filter(followList.follower_id == str(session['id']), followList.followee_id==id)[0]
+              follow="unfollow"
+            except:
+                 follow="follow"
+                
+            
     except:
         flash("Cant access page please login")
         return redirect('/login')
@@ -305,7 +313,7 @@ def profile(user) :
         user=user[0].username
         fishList= fish_Log.query.filter(fish_Log.account_id == userid)
         numFish=fishList.count()
-        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish)
+        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow)
     except:
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))

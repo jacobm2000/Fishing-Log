@@ -1,10 +1,11 @@
 {% extends "base.html" %}
-<head>
+<link rel="icon" type="image/x-icon" href="./static/icon/fish-jump.png">
 {% block title %}
 {{user}}'s Log
+
 {% endblock %}
 
-</head>
+
  {% block content %}
  
  <link rel = "stylesheet" type="text/css" href="/static/style.css">
@@ -37,9 +38,9 @@
   
    <div class="text-center">
       <h1>{{user}}'s log</h1>
-      <a href="/follow/{{userid}}" class="btn btn-success">Follow</a>
+      <a href="/follow/{{userid}}"class="btn btn-success" id="follow">{{followText}}</a>
   </div>
-  
+
  {% for mesg in get_flashed_messages() %}
  <h3 class="text-primary text-center ">{{ mesg }}</h3>
  {% endfor %}
@@ -57,7 +58,8 @@
     </div>
   </div>
  {% endfor %}
+ <script src="{{url_for('static', filename='follow.js')}}"></script>
  {% endblock %}
 
-</div>
+
 
