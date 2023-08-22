@@ -26,5 +26,5 @@ You can create your own login or use the guest account provided: Username: guest
 ### Homepage
 ![](./screenshots/home-demo.gif)
 
-### Profile
+### Lookup and Profile
 ![](./screenshots/profile-demo.gif)
