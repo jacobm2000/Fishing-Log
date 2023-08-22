@@ -218,6 +218,7 @@ def home() :
         if request.method=="POST":
             
             if (request.form['submit_button']=='submit'):
+                print("moo")
                 a_id = accounts.query.filter(accounts.username==session['user'])
                 a_id=a_id[0].id
                 fishName= str(request.form["fish"])
