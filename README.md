@@ -7,7 +7,7 @@ This will lead the user to a view similar to their own homepage but the ability 
 # Deployment:
 https://maurerja2000.pythonanywhere.com/login
 
-You can create your own login or use the guest account provided: Username: guest, password:123
+You can create your own login or use the guest account provided: Username: guest, password:azc245
 
 
  
