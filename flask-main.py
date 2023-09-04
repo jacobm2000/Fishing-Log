@@ -6,6 +6,7 @@ import hashlib
 from werkzeug.utils import secure_filename
 import os
 import uuid as uuid
+import re
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///fish.sqlite3'
@@ -97,11 +98,21 @@ def newAcc() :
 
         user=str(request.form["username"]).strip()
         passw=str(request.form["password"]).strip()
+        passwVerify=str(request.form["passwordVerify"]).strip()
       
         
         #checks to make username or password are not empty
-        if( str(request.form["username"])=="" or passw==""):
-            flash("username or password feild is empty")
+        if( user=="" or passw==""):
+            flash("Username or password feild is empty")
+            return  render_template("newAcc.html")
+        #chech to make sure user retyped password correctly
+        if(passwVerify!=passw):
+            flash("Passwords do not match")
+            return  render_template("newAcc.html")
+            
+        #chechs to see if password is less than 5 chars or does not contain numbers or letters
+        if(len(passw)<5 or (re.search(r'\d', passw)==None) or re.search(r'[a-zA-Z]',passw)==None):
+            flash("Password must be greater than 5 characters and contain both letters and numbers")
             return  render_template("newAcc.html")
         
         passw=hashlib.sha256(passw.encode('utf-8')).hexdigest()
@@ -111,7 +122,7 @@ def newAcc() :
         try:
            
            checkUser[0]
-           flash('username taken')
+           flash('Username taken')
            #session.clear()
            return redirect('/newacc')
            
