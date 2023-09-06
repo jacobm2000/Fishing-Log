@@ -177,8 +177,8 @@ def lookup():
             flash("No results found")
 
             return redirect(url_for('lookup',users=[]))
-   
-    return render_template("lookup.html",users=users)
+    f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+    return render_template("lookup.html",users=users,followList=f)
 @app.route("/delete/<int:id>")
 def delete(id):
     entry=fish_Log.query.get_or_404(id)
@@ -326,7 +326,9 @@ def profile(user) :
         user=user[0].username
         fishList= fish_Log.query.filter(fish_Log.account_id == userid)
         numFish=fishList.count()
-        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow)
+        #gets list of people the logged in user is following
+        f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow,followList=f)
     except:
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))
