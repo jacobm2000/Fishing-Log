@@ -10,9 +10,13 @@ import uuid as uuid
 import re
 
 app=Flask(__name__)
+
+
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///fish.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY']='632h3232ss'
+app.config['SECRET_KEY']=environ.get('APP_KEY')
+
+
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'webp','jfif'])
 def allowed_file(filename):
@@ -26,6 +30,12 @@ app.config["SESSION_TYPE"] = "filesystem"
 UPLOAD_FOLDER ='static/images'
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 Session(app)
+
+
+
+ 
+# returns JSON object as
+# a dictionary
 
 class fish_Log(db.Model):
    id = db.Column('fish_id', db.Integer, primary_key = True)
@@ -62,7 +72,7 @@ db.create_all()
 @app.route("/",methods=["POST","GET"])
 @app.route("/login",methods=["GET","POST"])
 def login():
-
+    
 #check to see if user is logged in and if they are bring them to the home page
 #and if not do nothing
     try:
@@ -152,6 +162,7 @@ def logout():
 @app.route("/lookup",methods=["POST","GET"])
 def lookup():
     users=""
+    f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
     #checks top see if users is logged in and if not returns them to the login page
     try:
         if(session['user']):
@@ -173,12 +184,12 @@ def lookup():
             elif(users[0].username==""):
                 flash("No results found")
                 return redirect(url_for('lookup',users=[]))
-            return render_template("lookup.html",users=users)
+            return render_template("lookup.html",users=users,followList=f)
         except Exception as e:
             flash("No results found")
 
             return redirect(url_for('lookup',users=[]))
-    f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+    
     return render_template("lookup.html",users=users,followList=f)
 @app.route("/delete/<int:id>")
 def delete(id):
@@ -231,7 +242,6 @@ def home() :
         if request.method=="POST":
             
             if (request.form['submit_button']=='submit'):
-                print("moo")
                 a_id = accounts.query.filter(accounts.username==session['user'])
                 a_id=a_id[0].id
                 fishName= str(request.form["fish"])
