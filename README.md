@@ -14,10 +14,10 @@ You can create your own login or use the guest account provided: Username: guest
  ### Login Page
 ![](./screenshots/login.JPG)
 
-### Homepage on mobile devices
+### Homepage Mobile View
 ![](./screenshots/mobile-home.JPG)
 
-### Profile page on mobile devices
+### Profile page Mobile View
 ![](./screenshots/mobile-profile.JPG)
 
 
