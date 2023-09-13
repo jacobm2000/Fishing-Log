@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import hashlib
 from werkzeug.utils import secure_filename
 import os
+from os import environ 
 import uuid as uuid
 import re
 
