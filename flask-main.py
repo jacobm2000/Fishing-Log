@@ -9,6 +9,11 @@ from os import environ
 import uuid as uuid
 import re
 
+from PIL import Image
+
+
+    
+
 app=Flask(__name__)
 
 
@@ -18,7 +23,7 @@ app.config['SECRET_KEY']=environ.get('APP_KEY')
 
 
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'webp','jfif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','jfif'])
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -257,13 +262,21 @@ def home() :
                     flash("No image chosen, please choose an image")
                     return redirect("home")
                 elif(allowed_file(pic.filename)==False):
-                    flash("File type not supported, supported file types are png, jpg, jpeg, webp, and jfif")
+                    flash("File type not supported, supported file types are png, jpg, jpeg, and jfif")
                     return redirect("home")
                     
                 pic_filename=secure_filename(pic.filename)
                 #adds uuid to each pic so each filename is unique when stored
                 pic_name=str(uuid.uuid1())+"_"+pic_filename
-                pic.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+                # Getting Rid of metadata
+                pic = Image.open(pic)
+                data = list(pic.getdata())
+                image_noMeta = Image.new(pic.mode, pic.size)
+                image_noMeta.putdata(data)
+                
+              
+                image_noMeta.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+                image_noMeta.close()
                 #if date or weight is empty they are marked as undefined
                 if(d==""):
                     d="Not Specified"
@@ -309,6 +322,7 @@ def home() :
             return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish,followList=f)
 
     except:
+      
         return redirect("/login")
         
 @app.route("/profile/<user>",methods=["GET"])
