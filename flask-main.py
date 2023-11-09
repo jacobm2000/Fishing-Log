@@ -317,9 +317,14 @@ def home() :
             
             #gets list of people the logged in user is following
             f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+            #gets list of peolpe who follows the user and counts
+            numF=followList.query.filter(followList.followee_id==session['id'])
+            numF=numF.count()
+            
             fishList= fish_Log.query.filter(fish_Log.account_id == session['id'])
-            numFish=fishList.count()
-            return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish,followList=f)
+            
+            numFish=(fishList).count()
+            return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish,followList=f,numFollowers=numF)
 
     except:
       
@@ -353,7 +358,11 @@ def profile(user) :
         numFish=fishList.count()
         #gets list of people the logged in user is following
         f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
-        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow,followList=f)
+        #gets list of peolpe who follows the user and counts
+
+        numF=followList.query.filter(followList.followee_id==userid)
+        numF=numF.count()
+        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow,followList=f,numFollowers=numF)
     except:
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))
