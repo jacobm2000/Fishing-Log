@@ -2,14 +2,14 @@
  A 
  Flask app with a database that allows users to create a profile and log catches to their profile. Users can also view other's profiles using the lookup fuctionality.
 This will lead the user to a view similar to their own homepage but the ability to insert or remove logs is not present.
-##  Screenshots
+
 
 # Deployment:
 https://maurerja2000.pythonanywhere.com/login
 
 You can create your own login or use the guest account provided: Username: guest, password:azc245
 
-
+##  Screenshots
  
  ### Login Page
 ![](./screenshots/login.JPG)
