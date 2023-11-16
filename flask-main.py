@@ -61,18 +61,20 @@ class accounts(db.Model):
    password=db.Column('password' ,db.String(50))
    fishlogs= db.relationship('fish_Log', backref='log')
    
-def __init__(self,username,password,fishlogs):
-   self.username = username
-   self.password= password
+
 
 class followList(db.Model):
     id = db.Column('follow_id', db.Integer, primary_key = True)
     follower_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
     followee_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
     
-def __init__(self,follower_id, followee_id):
-   self.follower_id =follower_id
-   self.followee_id= followee_id
+
+class likeList(db.Model):
+    id = db.Column('like_id', db.Integer, primary_key = True)
+    image_id=db.Column(db.Integer,db.ForeignKey('fish__log.fish_id'))
+    likee_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
+    
+
 db.create_all()
 @app.route("/",methods=["POST","GET"])
 @app.route("/login",methods=["GET","POST"])
