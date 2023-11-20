@@ -16,8 +16,8 @@ body {
     margin-bottom: 3rem;
 
 }
-.like_btn{
-    width: 30%;
+.like_count{
+    font-size: 1.5rem;
 }
 .input_txt {
     width: 30rem;

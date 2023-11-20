@@ -9,7 +9,7 @@
  {% block content %}
  
  <link rel = "stylesheet" type="text/css" href="/static/style.css">
-
+ <script src="https://kit.fontawesome.com/a798e9d6cf.js" crossorigin="anonymous"></script>
  <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary pr-4">
     <a class="navbar-brand text-light" >Fish Log</a>
@@ -68,10 +68,18 @@
       <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
       <p class="card-text"><b>Length:</b> {{fish.length}}</p>
       <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
-      <a href="#"><img id="{{fish.id}}" class="card-img-top pr-3 pl-3 rounded like_btn" src={{ url_for('static', filename='icon/like.png')}} alt="Card image cap"></a>
+      
+      
+      
+      {% if ownId in fish.likes|map(attribute="likee_id")|list %}
+      <a href="/like/{{fish.id}}" class="fa-solid fa-thumbs-up fa-2xl float-right mt-3 mb-3" >{{fish.likes|length}}</a>
+      {%else %}
+      <a href="/like/{{fish.id}}" class="fa-regular fa-thumbs-up fa-2xl float-right mt-3 mb-3" >{{fish.likes|length}}</a>
+      {% endif %}  
     </div>
   </div>
  {% endfor %}
+
  <script src="{{url_for('static', filename='profile.js')}}"></script>
  {% endblock %}
 
