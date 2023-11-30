@@ -241,7 +241,7 @@ def follow(id):
         db.session.commit()
         return redirect("/profile/"+user)
     
-@app.route("/like/<int:id>")
+@app.route("/like/<int:id>",methods=["POST"])
 def like(id):
     
             
@@ -250,13 +250,14 @@ def like(id):
     #query to check if user has liked post
     liked=likes.query.filter(likes.image_id==log.id,likes.likee_id==session['id'])
     
+ 
     """if there is 1 entry, it means the users has liked the post
     and now the like will be removed from the likes table unliking the post
     """
     if(liked.count()==1):
         db.session.delete(liked[0])
         db.session.commit()
-        return redirect("/profile/"+user)
+        return jsonify({"likes" : len(log.likes),"liked":False})
     try:
         new_like=likes(
         likee_id = session['id'],
@@ -265,9 +266,10 @@ def like(id):
                     )
         db.session.add(new_like)
         db.session.commit()
-        return redirect("/profile/"+user)
+        
+        return jsonify({"likes" : len(log.likes),"liked":True})
     except:
-        return redirect("/profile/"+user)
+        return jsonify({'error': 'Log does not exist'},400)
         
     
     
