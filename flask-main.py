@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template,request,redirect,flash,url_for,session
+from flask import Flask, render_template,request,redirect,flash,url_for,session,jsonify
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
@@ -51,6 +51,7 @@ class fish_Log(db.Model):
    length=db.Column(db.String(50))
    lure=db.Column(db.String(50))
    account_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
+   likes= db.relationship('likes', backref='likes', passive_deletes=True)
 def __init__(self, name, account_id):
    self.name = name
    self.account_id=account_id
@@ -61,18 +62,20 @@ class accounts(db.Model):
    password=db.Column('password' ,db.String(50))
    fishlogs= db.relationship('fish_Log', backref='log')
    
-def __init__(self,username,password,fishlogs):
-   self.username = username
-   self.password= password
+
 
 class followList(db.Model):
     id = db.Column('follow_id', db.Integer, primary_key = True)
     follower_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
     followee_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
     
-def __init__(self,follower_id, followee_id):
-   self.follower_id =follower_id
-   self.followee_id= followee_id
+
+class likes(db.Model):
+    id = db.Column('like_id', db.Integer, primary_key = True)
+    image_id=db.Column(db.Integer,db.ForeignKey('fish__log.fish_id'))
+    likee_id=db.Column(db.Integer,db.ForeignKey('accounts.account_id'))
+    
+
 db.create_all()
 @app.route("/",methods=["POST","GET"])
 @app.route("/login",methods=["GET","POST"])
@@ -237,6 +240,36 @@ def follow(id):
         db.session.add(new_follow)
         db.session.commit()
         return redirect("/profile/"+user)
+    
+@app.route("/like/<int:id>",methods=["POST"])
+def like(id):
+    
+            
+    log=fish_Log.query.filter(fish_Log.id==id)[0]
+    user=accounts.query.filter(accounts.id==log.account_id)[0].username
+    #query to check if user has liked post
+    liked=likes.query.filter(likes.image_id==log.id,likes.likee_id==session['id'])
+    
+ 
+    """if there is 1 entry, it means the users has liked the post
+    and now the like will be removed from the likes table unliking the post
+    """
+    if(liked.count()==1):
+        db.session.delete(liked[0])
+        db.session.commit()
+        return jsonify({"likes" : len(log.likes),"liked":False})
+    try:
+        new_like=likes(
+        likee_id = session['id'],
+        image_id=id
+
+                    )
+        db.session.add(new_like)
+        db.session.commit()
+        
+        return jsonify({"likes" : len(log.likes),"liked":True})
+    except:
+        return jsonify({'error': 'Log does not exist'},400)
         
     
     
@@ -362,8 +395,9 @@ def profile(user) :
 
         numF=followList.query.filter(followList.followee_id==userid)
         numF=numF.count()
-        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow,followList=f,numFollowers=numF)
-    except:
+        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow,followList=f,numFollowers=numF,ownId=session['id'])
+    except Exception as e:
+        print(e)
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))
 if __name__== "__main__":

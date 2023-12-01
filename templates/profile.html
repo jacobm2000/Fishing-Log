@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-<link rel="icon" type="image/x-icon" href="./static/icon/fish-jump.png">
 {% block title %}
 {{user}}'s Log
 
@@ -9,7 +8,7 @@
  {% block content %}
  
  <link rel = "stylesheet" type="text/css" href="/static/style.css">
-
+ <script src="https://kit.fontawesome.com/a798e9d6cf.js" crossorigin="anonymous"></script>
  <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary pr-4">
     <a class="navbar-brand text-light" >Fish Log</a>
@@ -62,16 +61,27 @@
   {% for fish in fishList%}
   <div class="card m-5 shadow" style="width: 18rem;">
     <h5 class="card-title mt-3">{{fish.name}}</h5>
-    <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fish.image )}} alt="Card image cap">
+    <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fish.image)}} alt="Card image cap">
     <div class="card-body">
       <p class="card-text"><b>Date:</b> {{fish.date}}</p>
       <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
       <p class="card-text"><b>Length:</b> {{fish.length}}</p>
       <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
+      
+      <div class="like_count">
+        <span class="font-weight-bold" id="like-count-{{fish.id}}">{{fish.likes|length}}</span>
+        {% if ownId in fish.likes|map(attribute="likee_id")|list %}
+        <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
+        {%else %}
+        <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
+        {%endif%}
+      </div>
     </div>
   </div>
  {% endfor %}
+
  <script src="{{url_for('static', filename='follow.js')}}"></script>
+ <script src="{{url_for('static', filename='like.js')}}"></script>
  {% endblock %}
 
 

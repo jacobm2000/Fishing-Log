@@ -16,7 +16,9 @@ body {
     margin-bottom: 3rem;
 
 }
-
+.like_count{
+    font-size: 1.5rem;
+}
 .input_txt {
     width: 30rem;
     margin: 0 auto;
@@ -32,6 +34,9 @@ body {
 }
 
 @media only screen and (max-width: 1200px) {
+    .like_count{
+        font-size: 3rem;
+    }
     nav {
         font-size: 2rem;
     }
