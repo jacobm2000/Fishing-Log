@@ -2,6 +2,7 @@
 from flask import Flask, render_template,request,redirect,flash,url_for,session,jsonify
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 import hashlib
 from werkzeug.utils import secure_filename
 import os
@@ -400,5 +401,23 @@ def profile(user) :
         print(e)
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))
+@app.route("/latest",methods=["GET"])
+def latest() :
+        #Orders posts So the most recent is first
+        #fishList= fish_Log.query.order_by(desc(fish_Log.id)).join(accounts,accounts.id==fish_Log.account_id).add_columns(accounts.username).paginate(page, 1, False)
+        fishList = fish_Log.query\
+    .join(accounts, accounts.id==fish_Log.account_id)\
+    .add_columns(fish_Log.name,fish_Log.weight,fish_Log.date,fish_Log.length,fish_Log.lure,fish_Log.image,fish_Log.id,accounts.username)\
+    .filter(fish_Log.account_id == accounts.id)\
+    .filter(accounts.id== fish_Log.account_id)\
+    .order_by(desc(fish_Log.id))
+          
+        
+        #gets list of people the logged in user is following
+        f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+      
+   
+        return render_template("latest.html",fishList=fishList,followList=f,ownId=session['id'])
+   
 if __name__== "__main__":
     app.run(debug=False)
