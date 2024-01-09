@@ -1,6 +1,7 @@
+
 {% extends "base.html" %}
 {% block title %}
-{{user}}'s Log
+Latest Posts
 
 {% endblock %}
 
@@ -25,11 +26,8 @@
           
           </li>
         <li class="nav-item active">
-          <a class="nav-link" href="#">{{user}}'s Log</a>
+            <a class="nav-link" href="#">Latest Posts</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/latest">Latest Posts<span class="sr-only"></span></a>
-         </li>
       </ul>
     </div>
     <div class="btn-group">
@@ -49,9 +47,8 @@
 
   
    <div class="text-center">
-      <h1>{{user}}'s log</h1>
-      <h4 class="text-center">{{numFollowers}} Followers</h4>
-      <a href="/follow/{{userid}}"class="btn btn-success" id="follow">{{followText}}</a>
+   <br><h1>Latest Posts</h1>
+      
       
   </div>
 
@@ -69,6 +66,7 @@
       <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
       <p class="card-text"><b>Length:</b> {{fish.length}}</p>
       <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
+      <span>Posted by: <a href="/profile/{{fish.username}}">{{fish.username}}</a></span>
       
       <div class="like_count">
         <span class="font-weight-bold" id="like-count-{{fish.id}}">{{fish.likes|length}}</span>
