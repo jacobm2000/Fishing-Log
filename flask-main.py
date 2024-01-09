@@ -423,7 +423,7 @@ def latest() :
         f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
           
        
-        return render_template("latest.html",fishList=fishList,followList=f,ownId=session['id'])
+        return render_template("latest.html",fishList=fishList[:100],followList=f,ownId=session['id'])
     except:
        flash("Cant access page please login")
        return redirect('/login')
