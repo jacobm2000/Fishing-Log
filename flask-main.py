@@ -355,7 +355,7 @@ def home() :
             numF=followList.query.filter(followList.followee_id==session['id'])
             numF=numF.count()
             
-            fishList= fish_Log.query.filter(fish_Log.account_id == session['id'])
+            fishList= fish_Log.query.filter(fish_Log.account_id == session['id']) .order_by(desc(fish_Log.id))
             
             numFish=(fishList).count()
             return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish,followList=f,numFollowers=numF)
@@ -388,7 +388,7 @@ def profile(user) :
         
         userid=user[0].id
         user=user[0].username
-        fishList= fish_Log.query.filter(fish_Log.account_id == userid)
+        fishList= fish_Log.query.filter(fish_Log.account_id == userid) .order_by(desc(fish_Log.id))
         numFish=fishList.count()
         #gets list of people the logged in user is following
         f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
