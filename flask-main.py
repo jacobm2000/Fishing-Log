@@ -408,8 +408,9 @@ def latest() :
         if (session['user']!=""):
             pass
             #check to see if the user is already following this user and if so change the button to unfollow
-        #Orders posts So the most recent is first
-        #fishList= fish_Log.query.order_by(desc(fish_Log.id)).join(accounts,accounts.id==fish_Log.account_id).add_columns(accounts.username).paginate(page, 1, False)
+            
+            
+        # gets list of posts , and orders posts So the most recent is first
         fishList = fish_Log.query\
         .join(accounts, accounts.id==fish_Log.account_id)\
         .add_columns(fish_Log.name,fish_Log.weight,fish_Log.date,fish_Log.length,fish_Log.lure,fish_Log.image,fish_Log.id,accounts.username)\
@@ -426,5 +427,7 @@ def latest() :
     except:
        flash("Cant access page please login")
        return redirect('/login')
+
+
 if __name__== "__main__":
     app.run(debug=False)
