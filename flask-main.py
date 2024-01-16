@@ -428,6 +428,28 @@ def latest() :
        flash("Cant access page please login")
        return redirect('/login')
 
-
+@app.route("/edit/<post_id>",methods=["POST","GET"])
+def edit(post_id) :
+    #gets list of people the logged in user is following
+     f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+     #Gets the post by id
+     p=fish_Log.query.filter(fish_Log.id==post_id)[0]
+     if request.method=="POST":
+          fishName= str(request.form["fish"])
+          if(fishName==""):
+              flash("No fish name Inputed, please enter a fish name")
+              return render_template("edit.html",followList=f,post=p)
+          d= str(request.form["date"])
+          w= str(request.form["weight"])
+          length= str(request.form["length"])
+          lure= str(request.form["lure"])
+         
+          return redirect(url_for('home'))
+     
+     else:
+        
+        print(1)
+        return render_template("edit.html",followList=f,post=p)
+    
 if __name__== "__main__":
     app.run(debug=False)
