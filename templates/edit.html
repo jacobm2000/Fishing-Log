@@ -1,7 +1,6 @@
-
 {% extends "base.html" %}
 {% block title %}
-Latest Posts
+
 
 {% endblock %}
 
@@ -25,9 +24,9 @@ Latest Posts
             <a class="nav-link" href="/lookup">Lookup <span class="sr-only"></span></a>
           
           </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Latest Posts</a>
-        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/latest">Latest Posts<span class="sr-only"></span></a>
+         </li>
       </ul>
     </div>
     <div class="btn-group">
@@ -44,44 +43,29 @@ Latest Posts
     <a class="nav-link logout" href="/logout">Logout</a>
   </nav>
 
-
+  <form class="text-center items-center" action="/edit/{{post.id}}"  method="post" class="form" enctype="multipart/form-data">
+    <div class="input_txt">
+        <br><br>
+        <h3>Name</h3>
+        <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Fish Name" value="{{post.name}}">
+        <br><h3>Date</h3>
+        <input type="date" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="date" value="{{post.date}}">
+        <br><h3>Weight</h3>
+        <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="weight" value="{{post.weight}}">
+        <br><h3>Length</h3>
+        <input type="text" class="form-control  text-center mt-3 mb-3" id="length" name="length" aria-describedby="length" value="{{post.length}}">
+        <br><h3>Lure</h3>
+        <input type="text" class="form-control  text-center mt-3 mb-3" id="lure" name="lure" aria-describedby="lure" value="{{post.lure}}">
+        <button type="submit" name="submit_button" value="cancel" class="btn btn-danger shadow">Cancel</button>
+        <button type="submit" name="submit_button" value="submit" class="btn btn-success shadow">Confirm</button>
+        
+    </form>
   
-   <div class="text-center">
-   <br><h1>Latest Posts</h1>
-      
-      
-  </div>
 
  {% for mesg in get_flashed_messages() %}
  <h3 class="text-primary text-center ">{{ mesg }}</h3>
- {% endfor %}
- <br><br>
- <div class="text-center logs card-columns">
-  {% for fish in fishList%}
-  <div class="card m-5 shadow" style="width: 18rem;">
-    <h5 class="card-title mt-3">{{fish.name}}</h5>
-    <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fish.image)}} alt="Card image cap">
-    <div class="card-body">
-      <p class="card-text"><b>Date:</b> {{fish.date}}</p>
-      <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
-      <p class="card-text"><b>Length:</b> {{fish.length}}</p>
-      <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
-      <span class="card-text">Posted by: <a href="/profile/{{fish.username}}">{{fish.username}}</a></span>
-      
-      <div class="like_count">
-        <span class="font-weight-bold" id="like-count-{{fish.id}}">{{fish.likes|length}}</span>
-        {% if ownId in fish.likes|map(attribute="likee_id")|list %}
-        <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
-        {%else %}
-        <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
-        {%endif%}
-      </div>
-    </div>
-  </div>
- {% endfor %}
+ {% endfor%}
 
- 
- <script src="{{url_for('static', filename='like.js')}}"></script>
  {% endblock %}
 
 
