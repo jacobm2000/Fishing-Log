@@ -24,6 +24,9 @@ You can create your own login or use the guest account provided: Username: guest
 ### Homepage Mobile View
 ![](./screenshots/mobile-home.JPG)
 
+### Edit Mobile View
+![](./screenshots/mobile-edit.JPG)
+
 ### Profile page Mobile View
 ![](./screenshots/mobile-profile.JPG)
 
