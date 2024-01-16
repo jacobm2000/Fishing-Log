@@ -14,6 +14,13 @@ You can create your own login or use the guest account provided: Username: guest
  ### Login Page
 ![](./screenshots/login.JPG)
 
+
+ ### Latest Page
+![](./screenshots/latest.JPG)
+
+### Latest Page Mobile View
+![](./screenshots/mobile-latest.JPG)
+
 ### Homepage Mobile View
 ![](./screenshots/mobile-home.JPG)
 

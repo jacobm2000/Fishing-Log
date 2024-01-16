@@ -355,7 +355,7 @@ def home() :
             numF=followList.query.filter(followList.followee_id==session['id'])
             numF=numF.count()
             
-            fishList= fish_Log.query.filter(fish_Log.account_id == session['id'])
+            fishList= fish_Log.query.filter(fish_Log.account_id == session['id']) .order_by(desc(fish_Log.id))
             
             numFish=(fishList).count()
             return render_template("home.html",fishList=fishList,username=session['user'],numFish=numFish,followList=f,numFollowers=numF)
@@ -388,7 +388,7 @@ def profile(user) :
         
         userid=user[0].id
         user=user[0].username
-        fishList= fish_Log.query.filter(fish_Log.account_id == userid)
+        fishList= fish_Log.query.filter(fish_Log.account_id == userid) .order_by(desc(fish_Log.id))
         numFish=fishList.count()
         #gets list of people the logged in user is following
         f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
@@ -403,21 +403,31 @@ def profile(user) :
         return redirect(url_for('home',username=session['user']))
 @app.route("/latest",methods=["GET"])
 def latest() :
-        #Orders posts So the most recent is first
-        #fishList= fish_Log.query.order_by(desc(fish_Log.id)).join(accounts,accounts.id==fish_Log.account_id).add_columns(accounts.username).paginate(page, 1, False)
-        fishList = fish_Log.query\
-    .join(accounts, accounts.id==fish_Log.account_id)\
-    .add_columns(fish_Log.name,fish_Log.weight,fish_Log.date,fish_Log.length,fish_Log.lure,fish_Log.image,fish_Log.id,accounts.username)\
-    .filter(fish_Log.account_id == accounts.id)\
-    .filter(accounts.id== fish_Log.account_id)\
-    .order_by(desc(fish_Log.id))
-          
+    try:
         
-        #gets list of people the logged in user is following
+        if (session['user']!=""):
+            pass
+            #check to see if the user is already following this user and if so change the button to unfollow
+            
+            
+        # gets list of posts , and orders posts So the most recent is first
+        fishList = fish_Log.query\
+        .join(accounts, accounts.id==fish_Log.account_id)\
+        .add_columns(fish_Log.name,fish_Log.weight,fish_Log.date,fish_Log.length,fish_Log.lure,fish_Log.image,fish_Log.id,accounts.username)\
+        .filter(fish_Log.account_id == accounts.id)\
+        .filter(accounts.id== fish_Log.account_id)\
+        .order_by(desc(fish_Log.id))
+              
+            
+            #gets list of people the logged in user is following
         f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
-      
-   
-        return render_template("latest.html",fishList=fishList,followList=f,ownId=session['id'])
-   
+          
+       
+        return render_template("latest.html",fishList=fishList[:100],followList=f,ownId=session['id'])
+    except:
+       flash("Cant access page please login")
+       return redirect('/login')
+
+
 if __name__== "__main__":
     app.run(debug=False)
