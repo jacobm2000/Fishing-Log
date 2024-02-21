@@ -30,6 +30,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/latest">Latest Posts<span class="sr-only"></span></a>
          </li>
+        
       </ul>
     </div>
     <div class="btn-group">
@@ -69,7 +70,7 @@
       <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
       <p class="card-text"><b>Length:</b> {{fish.length}}</p>
       <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
-      
+      <p>{{fish.likes}}</p>
       <div class="like_count">
         <span class="font-weight-bold" id="like-count-{{fish.id}}">{{fish.likes|length}}</span>
         {% if ownId in fish.likes|map(attribute="likee_id")|list %}
