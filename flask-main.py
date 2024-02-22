@@ -430,6 +430,38 @@ def latest() :
      
        flash("Cant access page please login")
        return redirect('/login')
+   
+@app.route("/liked",methods=["GET"])
+def liked() :
+    try:
+        
+        if (session['user']!=""):
+            pass
+             #make sure users is logged in
+            
+        # gets list of posts that user has liked , and orders posts So the most recent is first
+        fishList= fish_Log.query\
+             .join(likes,likes.image_id==fish_Log.id)\
+            .filter(likes.likee_id==session['id'])\
+            .order_by(desc(fish_Log.id))
+        
+        #list of users that the user has liked photos of
+        ul= fish_Log.query\
+         .join(accounts,accounts.id==fish_Log.account_id)\
+         .join(likes,likes.image_id==fish_Log.id)\
+        .filter(likes.likee_id==session['id'])\
+        .add_columns(accounts.username)\
+        .order_by(desc(fish_Log.id))
+        
+            #gets list of people the logged in user is following
+        f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+          
+       
+        return render_template("liked.html",fishList=fishList[:100],followList=f,ownId=session['id'],userList=ul)
+    except:
+     
+       flash("Cant access page please login")
+       return redirect('/login')
 @app.route("/edit/<post_id>",methods=["POST","GET"])
 def edit(post_id) :
      

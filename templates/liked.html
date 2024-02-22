@@ -1,6 +1,7 @@
+
 {% extends "base.html" %}
 {% block title %}
-{{user}}'s Log
+Liked Posts
 
 {% endblock %}
 
@@ -24,13 +25,13 @@
             <a class="nav-link" href="/lookup">Lookup <span class="sr-only"></span></a>
           
           </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="#">{{user}}'s Log</a>
+        <li class="nav-item ">
+            <a class="nav-link" href="/latest">Latest Posts</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/latest">Latest Posts<span class="sr-only"></span></a>
-         </li>
-        
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Liked Posts</a>
+        </li>
+       
       </ul>
     </div>
     <div class="btn-group">
@@ -50,9 +51,8 @@
 
   
    <div class="text-center">
-      <h1>{{user}}'s log</h1>
-      <h4 class="text-center">{{numFollowers}} Followers</h4>
-      <a href="/follow/{{userid}}"class="btn btn-success" id="follow">{{followText}}</a>
+   <br><h1>Liked Posts</h1>
+      
       
   </div>
 
@@ -61,28 +61,29 @@
  {% endfor %}
  <br><br>
  <div class="text-center logs card-columns">
-  {% for fish in fishList%}
+  {% for i in range(fishList|length)%}
   <div class="card m-5 shadow" style="width: 18rem;">
-    <h5 class="card-title mt-3">{{fish.name}}</h5>
-    <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fish.image)}} alt="Card image cap">
+    <h5 class="card-title mt-3">{{fishList[i].name}}</h5>
+    <img class="card-img-top pr-3 pl-3 rounded" src={{ url_for('static', filename=fishList[i].image)}} alt="Card image cap">
     <div class="card-body">
-      <p class="card-text"><b>Date:</b> {{fish.date}}</p>
-      <p class="card-text"><b>Weight:</b> {{fish.weight}}</p>
-      <p class="card-text"><b>Length:</b> {{fish.length}}</p>
-      <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
+      <p class="card-text"><b>Date:</b> {{fishList[i].date}}</p>
+      <p class="card-text"><b>Weight:</b> {{fishList[i].weight}}</p>
+      <p class="card-text"><b>Length:</b> {{fishList[i].length}}</p>
+      <p class="card-text"><b>Lure or Bait:</b> {{fishList[i].lure}}</p>
+      <span class="card-text">Posted by: <a href="/profile/{userList[i].username}}">{{userList[i].username}}</a></span>
       <div class="like_count">
-        <span class="font-weight-bold" id="like-count-{{fish.id}}">{{fish.likes|length}}</span>
-        {% if ownId in fish.likes|map(attribute="likee_id")|list %}
-        <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
+        <span class="font-weight-bold" id="like-count-{{fishList[i].id}}">{{fishList[i].likes|length}}</span>
+        {% if ownId in fishList[i].likes|map(attribute="likee_id")|list %}
+        <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fishList[i].id}}" onclick="like({{fishList[i].id}})"></i>
         {%else %}
-        <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
+        <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fishList[i].id}}" onclick="like({{fishList[i].id}})"></i>
         {%endif%}
       </div>
     </div>
   </div>
  {% endfor %}
 
- <script src="{{url_for('static', filename='follow.js')}}"></script>
+ 
  <script src="{{url_for('static', filename='like.js')}}"></script>
  {% endblock %}
 
