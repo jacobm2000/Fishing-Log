@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+ {% block content %}
+ <link rel = "stylesheet" type="text/css" href="/static/style.css">
+
+
+ <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary pr-4">
+    <span class="navbar-brand text-light">Fish Log</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/home">Home <span class="sr-only"></span></a>
+        
+        </li>
+       <li class="nav-item">
+            <a class="nav-link" href="/lookup">Lookup <span class="sr-only"></span></a>
+          
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/latest">Latest Posts<span class="sr-only"></span></a>
+           </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/login">Login<span class="sr-only"></span></a>
+           </li>
+        
+      </ul>
+    </div>
+    </nav>
+    <br><br><br><br> <br><br><br><br> <br><br><br><br>
+
+    <h1 class='text-center'>Page Not Found</h1>
+    <h3 class='text-center'>You can use the navbar above to get where you are going</h3>
+    
+    
+    {%endblock%}
+   
+    

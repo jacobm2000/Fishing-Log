@@ -112,6 +112,13 @@ def login():
     else:
        return render_template("login.html")
     
+    
+    
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404    
+    
+
 @app.route("/newacc",methods=["POST","GET"])
 def newAcc() :
     if request.method=="POST":
@@ -170,36 +177,43 @@ def logout():
 
 @app.route("/lookup",methods=["POST","GET"])
 def lookup():
-    users=""
-    f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
-    #checks top see if users is logged in and if not returns them to the login page
     try:
         if(session['user']):
-            pass
-    except:
-        flash("Cant access page please login")
+            users=""
+            f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+            #checks top see if users is logged in and if not returns them to the login page
+            try:
+                if(session['user']):
+                    pass
+            except:
+                flash("Cant access page please login")
+                
+                return redirect("/login")
+            if request.method=="POST":
+              
+              
+                try:
+                    s =str( request.form["term"]).strip()
+                    users = accounts.query.filter(accounts.username.like('%'+s+'%'))
+                    term=s
+                    if(s==""):
+                         flash("Search Box is empty please input a username")
+                         return redirect(url_for('lookup',users=[]))
+                    elif(users[0].username==""):
+                        flash("No results found")
+                        return redirect(url_for('lookup',users=[]))
+                    return render_template("lookup.html",users=users,followList=f)
+                except Exception as e:
+                    flash("No results found")
         
-        return redirect("/login")
-    if request.method=="POST":
-      
-      
-        try:
-            s =str( request.form["term"]).strip()
-            users = accounts.query.filter(accounts.username.like('%'+s+'%'))
-            term=s
-            if(s==""):
-                 flash("Search Box is empty please input a username")
-                 return redirect(url_for('lookup',users=[]))
-            elif(users[0].username==""):
-                flash("No results found")
-                return redirect(url_for('lookup',users=[]))
+                    return redirect(url_for('lookup',users=[]))
+            
             return render_template("lookup.html",users=users,followList=f)
-        except Exception as e:
-            flash("No results found")
-
-            return redirect(url_for('lookup',users=[]))
-    
-    return render_template("lookup.html",users=users,followList=f)
+    except:
+             
+               flash("Cant access page please login")
+               return redirect('/login')
+  
 @app.route("/delete/<int:id>")
 def delete(id):
     entry=fish_Log.query.get_or_404(id)
