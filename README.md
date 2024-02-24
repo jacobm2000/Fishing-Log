@@ -1,5 +1,5 @@
 # Fishing-Log
-A Flask application featuring a SQLite database that enables users to create to create a profile to log their catches, with the flexibility to edit catch details later for additional information. The application also includes a lookup function allowing users to view profiles of others, offering users the ability to follow others profiles and like posts. There is also a latest page that allows users the ability to see the latest posts from other users.
+This Flask app includes a SQLite database, letting users easily make profiles to keep track of their catches. Users can edit catch details later to add more info. It also has a search function for checking out other profiles, following them, and liking posts. Plus, there's a Latest page to see the newest posts from other users on the platform.
 
 
 # Deployment:
