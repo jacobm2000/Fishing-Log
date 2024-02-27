@@ -477,7 +477,7 @@ def liked() :
        flash("Cant access page please login")
        return redirect('/login')
 @app.route("/edit/<post_id>",methods=["POST","GET"])
-def edit(post_id) :
+def edit(post_id):
      
     
     #gets list of people the logged in user is following
@@ -509,5 +509,17 @@ def edit(post_id) :
      else:
         return render_template("edit.html",followList=f,post=p)
     
+@app.route("/changePass",methods=["GET","POST"])
+def changePass():
+ try:
+        
+        if (session['user']!=""):
+            pass
+             #make sure users is logged in
+            return render_template("changePass.html")
+ except:
+     
+       flash("Cant access page please login")
+       return redirect('/login')
 if __name__== "__main__":
     app.run(debug=False)

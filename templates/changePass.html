@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Edit
+   Change Password
 
 {% endblock %}
 
@@ -44,19 +44,15 @@
     <a class="nav-link logout" href="/logout">Logout</a>
   </nav>
 
-  <form class="text-center items-center" action="/edit/{{post.id}}"  method="post" class="form" enctype="multipart/form-data">
+  <form class="text-center items-center" action=""  method="post" class="form" enctype="multipart/form-data">
     <div class="input_txt">
         <br><br>
-        <h4>Name</h4>
-        <input type="text" class="form-control text-center mt-3 " id="fishName" name="fish" aria-describedby="Fish Name" value="{{post.name}}">
-        <br><h4>Date</h4>
-        <input type="date" class="form-control  text-center mt-3" id="date" name="date" aria-describedby="date" value="{{post.date}}">
-        <br><h4>Weight</h4>
-        <input type="text" class="form-control  text-center mt-3 mb-3" id="weight" name="weight" aria-describedby="weight" value="{{post.weight}}">
-        <br><h4>Length</h4>
-        <input type="text" class="form-control  text-center mt-3 mb-3" id="length" name="length" aria-describedby="length" value="{{post.length}}">
-        <br><h4>Lure</h4>
-        <input type="text" class="form-control  text-center mt-3 mb-3" id="lure" name="lure" aria-describedby="lure" value="{{post.lure}}">
+        <h4>Old Password</h4>
+        <input type="Password" class="form-control text-center mt-3 " id="oldPass" name="fish" aria-describedby="old Password"><br>
+        <h4>New Password</h4>
+        <input type="text" class="form-control text-center mt-3 " id="newPass" name="fish" aria-describedby="New Password"><br>
+        <h4>Confirm Password</h4>
+        <input type="text" class="form-control text-center mt-3 " id="confirmPass" name="fish" aria-describedby="Confirm password"><br>
         <button type="submit" name="submit_button" value="cancel" class="btn btn-danger shadow">Cancel</button>
         <button type="submit" name="submit_button" value="submit" class="ml-5 btn btn-success shadow">Confirm</button>
         
