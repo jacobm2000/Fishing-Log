@@ -413,8 +413,7 @@ def profile(user) :
         numF=followList.query.filter(followList.followee_id==userid)
         numF=numF.count()
         return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow,followList=f,numFollowers=numF,ownId=session['id'])
-    except Exception as e:
-        print(e)
+    except:
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))
 
@@ -512,13 +511,36 @@ def edit(post_id):
 @app.route("/changePass",methods=["GET","POST"])
 def changePass():
  try:
-        
+        #make sure users is logged in
         if (session['user']!=""):
-            pass
-             #make sure users is logged in
+            user=accounts.query.filter(accounts.id==session['id'])[0]
+            if request.method=="POST":
+                if (request.form['submit_button']=='cancel'):
+                   return redirect(url_for('home'))
+                if (request.form['submit_button']=='submit'):
+                   oldPass= str(request.form["oldPass"])
+                   oldPass=hashlib.sha256(oldPass.encode('utf-8')).hexdigest()
+                   newPass=str(request.form["newPass"]).strip()
+                   confirmPass=str(request.form["confirmPass"]).strip()
+                   if(oldPass==user.password):
+                       #check to see if the new passwords matches the confirm feild and that feilds are not empty
+                       if(newPass==confirmPass and newPass!=""):
+                           #check to make sure password meets requirements
+                           if(len(newPass)<5 or (re.search(r'\d', newPass)==None) or re.search(r'[a-zA-Z]',newPass)==None):
+                              flash("Password must be greater than 5 characters and contain both letters and numbers")
+                           else:
+                               user.password=hashlib.sha256(newPass.encode('utf-8')).hexdigest()
+                               db.session.commit()
+                               flash("Password Change Sucessful")
+                               return redirect(url_for('home'))
+                       else:
+                           flash("new passwords do not match or a feild is empty")
+                   else:
+                       flash("old Password Incorrect")
+                   
+             
             return render_template("changePass.html")
  except:
-     
        flash("Cant access page please login")
        return redirect('/login')
 if __name__== "__main__":
