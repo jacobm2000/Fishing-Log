@@ -5,8 +5,6 @@ This Flask app includes a SQLite database, letting users easily make profiles to
 # Deployment:
 https://maurerja2000.pythonanywhere.com/login
 
-You can create your own login or use the guest account provided: Username: guest, password:azc245
-
 ##  Screenshots
  
  ### Login Page
