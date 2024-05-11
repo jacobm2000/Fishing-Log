@@ -17,6 +17,7 @@ Login
       <input type="password" class="form-control w-50" name="password" id="Password" placeholder="Password">
     </div>
     <button type="submit" name="submit_button" value="login" class="btn btn-success">Login</button>
+    <button type="submit" name="submit_button" value="guest" class="btn btn-info">Guest</button>
     <button type="submit" name="submit_button" value='signup' class="btn btn-primary">Signup</button>
     {% for mesg in get_flashed_messages() %}
     <h4 class='text-danger mt-5'>{{ mesg }}</h4>

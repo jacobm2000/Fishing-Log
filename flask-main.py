@@ -109,6 +109,10 @@ def login():
                 return render_template("login.html")
         if (request.form['submit_button']=='signup'):
             return redirect('/newacc')
+        if (request.form['submit_button']=='guest'):
+            session["user"]="guest"
+            session["id"]=accounts.query.filter_by(username="guest")[0].id
+            return redirect('/latest')
     else:
        return render_template("login.html")
     
@@ -292,8 +296,12 @@ def like(id):
 def home() :
     # an error means the user is not signed in so they are directed to the login page
     try:
+        if (session['user']=="guest"):
+            flash("Can't Access Home Page")
+            return redirect('/latest')
         if request.method=="POST":
-            
+           
+               
             if (request.form['submit_button']=='submit'):
                 a_id = accounts.query.filter(accounts.username==session['user'])
                 a_id=a_id[0].id

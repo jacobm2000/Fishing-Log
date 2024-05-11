@@ -67,7 +67,7 @@ Latest Posts
       <p class="card-text"><b>Weight:</b> {{fishList[i].weight}}</p>
       <p class="card-text"><b>Length:</b> {{fishList[i].length}}</p>
       <p class="card-text"><b>Lure or Bait:</b> {{fishList[i].lure}}</p>
-      <span class="card-text">Posted by: <a href="/profile/{userList[i].username}}">{{userList[i].username}}</a></span>
+      <span class="card-text">Posted by: <a href="/profile/{{userList[i].username}}">{{userList[i].username}}</a></span>
       <div class="like_count">
         <span class="font-weight-bold" id="like-count-{{fishList[i].id}}">{{fishList[i].likes|length}}</span>
         {% if ownId in fishList[i].likes|map(attribute="likee_id")|list %}
