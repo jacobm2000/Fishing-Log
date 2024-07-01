@@ -94,7 +94,7 @@ def login():
         
     if(request.method=="POST"):
         if (request.form['submit_button']=='login'):
-            session['user']=str(request.form["username"]).strip()
+            session['user']=str(request.form["username"]).strip().lower()
             passw=str(request.form["password"]).strip()
             passw=hashlib.sha256(passw.encode('utf-8')).hexdigest()
             checkUser=accounts.query.filter_by(username=session['user'],password=passw)
@@ -127,7 +127,7 @@ def page_not_found(e):
 def newAcc() :
     if request.method=="POST":
 
-        user=str(request.form["username"]).strip()
+        user=str(request.form["username"]).strip().lower()
         passw=str(request.form["password"]).strip()
         passwVerify=str(request.form["passwordVerify"]).strip()
       
