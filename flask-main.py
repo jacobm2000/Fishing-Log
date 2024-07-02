@@ -420,8 +420,9 @@ def profile(user) :
 
         numF=followList.query.filter(followList.followee_id==userid)
         numF=numF.count()
-        return render_template("profile.html",fishList=fishList,user=user,userid=userid,numFish=numFish,followText=follow,followList=f,numFollowers=numF,ownId=session['id'])
+        return render_template("profile.html",fishList=fishList,user=user,userid=userid,ownUser=session['user'],numFish=numFish,followText=follow,followList=f,numFollowers=numF,ownId=session['id'])
     except:
+ 
         flash("could not find user")
         return redirect(url_for('home',username=session['user']))
 
@@ -446,7 +447,7 @@ def latest() :
         f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
           
        
-        return render_template("latest.html",fishList=fishList[:100],followList=f,ownId=session['id'],userList=ul)
+        return render_template("latest.html",fishList=fishList[:100],followList=f,ownId=session['id'],ownUser=session['user'],userList=ul)
     except:
      
        flash("Cant access page please login")
@@ -459,7 +460,7 @@ def liked() :
         if (session['user']!=""):
             pass
              #make sure users is logged in
-            
+        
         # gets list of posts that user has liked , and orders posts So the most recent is first
         fishList= fish_Log.query\
              .join(likes,likes.image_id==fish_Log.id)\

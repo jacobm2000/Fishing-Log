@@ -69,12 +69,18 @@ Latest Posts
       <p class="card-text"><b>Lure or Bait:</b> {{fishList[i].lure}}</p>
       <span class="card-text">Posted by: <a href="/profile/{{userList[i].username}}">{{userList[i].username}}</a></span>
       <div class="like_count">
-        <span class="font-weight-bold" id="like-count-{{fishList[i].id}}">{{fishList[i].likes|length}}</span>
-        {% if ownId in fishList[i].likes|map(attribute="likee_id")|list %}
-        <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fishList[i].id}}" onclick="like({{fishList[i].id}})"></i>
-        {%else %}
-        <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fishList[i].id}}" onclick="like({{fishList[i].id}})"></i>
+        
+       <!--First checks if user is guest or not, then checks if they have liked the post-->
+        {%if ownUser != 'guest'%}
+          {% if ownId in fishList[i].likes|map(attribute="likee_id")|list %}
+          <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fishList[i].id}}" onclick="like({{fishList[i].id}})"></i>
+          {%else %}
+          <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fishList[i].id}}" onclick="like({{fishList[i].id}})"></i>
+          {%endif%}
+        {%else%}
+         <span>Likes</span>
         {%endif%}
+        <span class="font-weight-bold" id="like-count-{{fishList[i].id}}">{{fishList[i].likes|length}}</span>
       </div>
     </div>
   </div>

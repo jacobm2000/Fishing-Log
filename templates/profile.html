@@ -71,12 +71,17 @@
       <p class="card-text"><b>Length:</b> {{fish.length}}</p>
       <p class="card-text"><b>Lure or Bait:</b> {{fish.lure}}</p>
       <div class="like_count">
-        <span class="font-weight-bold" id="like-count-{{fish.id}}">{{fish.likes|length}}</span>
-        {% if ownId in fish.likes|map(attribute="likee_id")|list %}
-        <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
-        {%else %}
-        <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
+       <!--First checks if user is guest or not, then checks if they have liked the post-->
+        {%if ownUser != 'guest'%}
+          {% if ownId in fish.likes|map(attribute="likee_id")|list %}
+          <i class="fas fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
+          {%else %}
+          <i class="far fa-thumbs-up" style="color: #005eff;" id="like-btn-{{fish.id}}" onclick="like({{fish.id}})"></i>
+          {%endif%}
+        {%else%}
+        <span>Likes</span>
         {%endif%}
+        <span class="font-weight-bold" id="like-count-{{fish.id}}">{{fish.likes|length}}</span>
       </div>
     </div>
   </div>
