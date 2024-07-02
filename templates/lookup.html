@@ -30,6 +30,8 @@ Lookup
       </ul>
     </div>
       <div class="btn-group">
+        <!--Only shows follow list if user is not guest-->
+        {%if ownUser != 'guest'%}
         <button type="button" class="btn text-light mr-5 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Follow List
         </button>
@@ -38,7 +40,7 @@ Lookup
           {% for user in followList%}
           <li><a class="dropdown-item" href="/profile/{{user.username}}">{{user.username}}</a></li>
           {% endfor %}
-
+          {%endif%}
       </div>
     <a class="nav-lin logout"  href="/logout">Logout</a>
   </nav>

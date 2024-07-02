@@ -31,6 +31,8 @@ Latest Posts
        
       </ul>
     </div>
+    <!--Only shows follow list if user is not guest-->
+    {%if ownUser != 'guest'%}
     <div class="btn-group">
       <button type="button" class="btn text-light mr-5 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Follow List
@@ -40,7 +42,7 @@ Latest Posts
         {% for user in followList%}
         <li><a class="dropdown-item" href="/profile/{{user.username}}">{{user.username}}</a></li>
         {% endfor %}
-
+      {%endif%}
     </div>
     <a class="nav-link logout" href="/logout">Logout</a>
   </nav>

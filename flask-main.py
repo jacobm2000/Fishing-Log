@@ -212,7 +212,7 @@ def lookup():
         
                     return redirect(url_for('lookup',users=[]))
             
-            return render_template("lookup.html",users=users,followList=f)
+            return render_template("lookup.html",users=users,followList=f,ownUser=session['user'])
     except:
              
                flash("Cant access page please login")
