@@ -16,6 +16,12 @@ body{
    text-decoration: underline;
    font-weight: bold;
 }
+.btn{
+    margin-top: 2rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    font-size: 1.75rem;
+}
 h1{
     text-align: center;
  
@@ -30,9 +36,6 @@ form{
 
 @media only screen and (max-width: 1200px) {
     .form-control{
-        font-size: 2rem;
-    }
-    .btn{
         font-size: 2rem;
     }
     label{
