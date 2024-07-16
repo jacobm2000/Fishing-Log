@@ -85,6 +85,7 @@ def login():
 #check to see if user is logged in and if they are bring them to the home page
 #and if not do nothing
     try:
+    
       session['user']
       return redirect(url_for("home",username=session['user']))
     except:
@@ -296,8 +297,9 @@ def like(id):
 def home() :
     # an error means the user is not signed in so they are directed to the login page
     try:
+        #if user is a guest return them to latest post page and provide error message
         if (session['user']=="guest"):
-            flash("Can't Access Home Page")
+            flash("Page Inaccessable To Guests")
             return redirect('/latest')
         if request.method=="POST":
            
@@ -450,6 +452,43 @@ def latest() :
         return render_template("latest.html",fishList=fishList[:100],followList=f,ownId=session['id'],ownUser=session['user'],userList=ul)
     except:
      
+       flash("Cant access page please login")
+       return redirect('/login')
+
+
+@app.route("/followedPosts",methods=["GET"])
+def followedPosts() :
+    try:
+        #if user is a guest return them to latest post page and provide error message
+        if (session['user']=="guest"):
+            flash("Page Inaccessable To Guests")
+            return redirect('/latest')
+        if (session['user']!=""):
+            pass
+             #make sure users is logged in
+            
+        # gets list of posts , and orders posts So the most recent is first
+        fishList= fish_Log.query.order_by(desc(fish_Log.id))\
+        .filter(fish_Log.account_id==followList.followee_id,followList.follower_id==session['id'])
+        
+        #list of users
+        ul= fish_Log.query\
+         .join(accounts,accounts.id==fish_Log.account_id)\
+        .add_columns(accounts.username)\
+        .order_by(desc(fish_Log.id))\
+        .filter(fish_Log.account_id==followList.followee_id,followList.follower_id==session['id'])
+        # if the users has no users that have posted then a message will display to them
+        if (ul.count()==0):
+            flash("None of the users you follow have posted, follow more users to see more content")
+        
+        
+            #gets list of people the logged in user is following
+        f=accounts.query.filter(accounts.id==followList.followee_id,followList.follower_id==session['id'])
+        
+       
+        return render_template("followedPosts.html",fishList=fishList[:100],followList=f,ownId=session['id'],ownUser=session['user'],userList=ul)
+    except Exception as e:
+       print(e)
        flash("Cant access page please login")
        return redirect('/login')
    
