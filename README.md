@@ -10,12 +10,14 @@ https://maurerja2000.pythonanywhere.com/login
  ### Login Page
 ![](./screenshots/login.JPG)
 
-
+ ### For You Page
+ ![](./screenshots/forYou.JPG)
  ### Latest Page
 ![](./screenshots/latest.JPG)
  ### Liked Page
 ![](./screenshots/liked.JPG)
-
+ ### For You Page Mobile View
+ ![](./screenshots/mobile-forYou.JPG)
 ### Latest Page Mobile View
 ![](./screenshots/mobile-latest.JPG)
 
