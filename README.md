@@ -36,7 +36,7 @@ https://maurerja2000.pythonanywhere.com/login
 
 ## Demos
 
-### Homepage
+### Homepage and functionality
 ![](./screenshots/home-demo.gif)
 
 ### Lookup and Profile
