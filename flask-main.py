@@ -305,6 +305,7 @@ def home() :
            
                
             if (request.form['submit_button']=='submit'):
+                
                 a_id = accounts.query.filter(accounts.username==session['user'])
                 a_id=a_id[0].id
                 fishName= str(request.form["fish"])
@@ -322,7 +323,19 @@ def home() :
                 elif(allowed_file(pic.filename)==False):
                     flash("File type not supported, supported file types are png, jpg, jpeg, and jfif")
                     return redirect("home")
-                    
+                
+                fields=[w,length,lure,fishName]
+               
+                #uses simple regex to figure out if anny of the feilds contain a pattern that resembles a url
+                #and if so not allow the url to be used as input
+                regex = ("([A-z][.][A-z]{1,15})")
+                regexc=re.compile(regex)
+                for text in fields:
+                        if re.search(regexc,str(text)):
+                             flash("Fields cannot contain urls")
+                             return redirect("home")
+                
+                
                 pic_filename=secure_filename(pic.filename)
                 #adds uuid to each pic so each filename is unique when stored
                 pic_name=str(uuid.uuid1())+"_"+pic_filename
