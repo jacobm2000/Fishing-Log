@@ -132,7 +132,11 @@ def newAcc() :
         passw=str(request.form["password"]).strip()
         passwVerify=str(request.form["passwordVerify"]).strip()
       
-        
+        #checks for unallowed special Characters  
+        special_chars = r"[^a-zA-Z0-9_-]"
+        if(re.search(special_chars,user)):
+            flash("Username cannot contain special characters")
+            return  render_template("newAcc.html")
         #checks to make username or password are not empty
         if( user=="" or passw==""):
             flash("Username or password feild is empty")
@@ -309,6 +313,8 @@ def home() :
                 a_id = accounts.query.filter(accounts.username==session['user'])
                 a_id=a_id[0].id
                 fishName= str(request.form["fish"])
+                
+                    
                 if(fishName==""):
                     flash("No fish name Inputed, please enter a fish name")
                     return redirect("home")
@@ -316,6 +322,12 @@ def home() :
                 w= str(request.form["weight"])
                 length= str(request.form["length"])
                 lure= str(request.form["lure"])
+                #Checks to make sure fields don't contain special characters
+                special_chars = r"[^a-zA-Z0-9\s_-]"
+                if(re.search(special_chars, fishName + w + length + lure)):
+                    flash("Fields cannont contain special characters")
+                    return redirect("home")
+                
                 pic=(request.files["image"])
                 if(pic.filename==""):
                     flash("No image chosen, please choose an image")
@@ -323,19 +335,7 @@ def home() :
                 elif(allowed_file(pic.filename)==False):
                     flash("File type not supported, supported file types are png, jpg, jpeg, and jfif")
                     return redirect("home")
-                
-                fields=[w,length,lure,fishName]
-               
-                #uses simple regex to figure out if anny of the feilds contain a pattern that resembles a url
-                #and if so not allow the url to be used as input
-                regex = ("([A-z][.][A-z]{1,15})")
-                regexc=re.compile(regex)
-                for text in fields:
-                        if re.search(regexc,str(text)):
-                             flash("Fields cannot contain urls")
-                             return redirect("home")
-                
-                
+
                 pic_filename=secure_filename(pic.filename)
                 #adds uuid to each pic so each filename is unique when stored
                 pic_name=str(uuid.uuid1())+"_"+pic_filename
